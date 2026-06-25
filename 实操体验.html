@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>医学策略顾问 · 实操体验</title>
+<style>
+  :root{
+    --ink:#1a2433; --ink-soft:#48566b; --ink-faint:#8493a8;
+    --line:#e2e8f1; --line-soft:#eef2f7;
+    --paper:#fbfcfe; --card:#ffffff;
+    --blue:#2f5d8a; --blue-soft:#e8f0f8; --blue-line:#bcd2e8; --blue-deep:#24496c;
+    --teal:#2b7a78; --teal-soft:#e4f2f1;
+    --amber:#b5832b; --amber-soft:#fbf3e2;
+    --rose:#9c4a5e; --rose-soft:#f7e9ed;
+    --green:#2c6b40; --green-soft:#eaf5ee;
+    --shadow:0 1px 3px rgba(26,36,51,.06),0 6px 24px rgba(26,36,51,.05);
+    --shadow-lg:0 2px 8px rgba(26,36,51,.08),0 14px 44px rgba(26,36,51,.1);
+    --r:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    color:var(--ink);background:var(--paper);line-height:1.7;-webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+
+  /* top progress bar */
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(251,252,254,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .topbar .inner{max-width:1000px;margin:0 auto;padding:14px 28px}
+  .topbar .titlerow{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .topbar .titlerow b{color:var(--blue);font-size:15px}
+  .topbar .titlerow .ctx{margin-left:auto;font-size:12px;color:var(--ink-faint)}
+  .topbar .titlerow .ctx b{color:var(--ink-soft);font-weight:600}
+  .steps{display:flex;gap:0;align-items:center}
+  .steps .s{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;cursor:pointer}
+  .steps .s .dot{width:28px;height:28px;border-radius:50%;background:#fff;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink-faint);transition:.25s;z-index:2}
+  .steps .s .lbl{font-size:10.5px;color:var(--ink-faint);white-space:nowrap;transition:.25s}
+  .steps .s::before{content:"";position:absolute;top:14px;left:-50%;width:100%;height:2px;background:var(--line);z-index:1}
+  .steps .s:first-child::before{display:none}
+  .steps .s.done .dot{background:var(--blue);border-color:var(--blue);color:#fff}
+  .steps .s.done::before{background:var(--blue)}
+  .steps .s.active .dot{background:#fff;border-color:var(--blue);color:var(--blue);box-shadow:0 0 0 4px var(--blue-soft);transform:scale(1.1)}
+  .steps .s.active .lbl{color:var(--blue);font-weight:700}
+
+  /* stage */
+  .stage{max-width:1000px;margin:0 auto;padding:44px 28px 120px}
+  .panel{display:none;animation:fade .4s ease}
+  .panel.show{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  .phead{margin-bottom:6px}
+  .phead .eyebrow{font-size:12px;letter-spacing:.14em;color:var(--blue);font-weight:700;margin-bottom:8px}
+  .phead h2{font-size:27px;letter-spacing:-.01em}
+  .phead .lead{color:var(--ink-soft);font-size:15px;margin-top:8px;max-width:760px}
+
+  /* welcome */
+  .welcome{text-align:center;padding:40px 0 0}
+  .welcome .hero-ic{font-size:46px;margin-bottom:10px}
+  .welcome h1{font-size:34px;line-height:1.3;margin-bottom:16px}
+  .welcome p{color:var(--ink-soft);font-size:16px;max-width:620px;margin:0 auto 10px}
+  .wsteps{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:36px auto 8px;max-width:760px}
+  .wsteps .wc{flex:1;min-width:150px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow);text-align:left}
+  .wsteps .wc .k{font-size:11px;color:var(--blue);font-weight:700;letter-spacing:.05em}
+  .wsteps .wc .v{font-size:14px;font-weight:700;margin-top:3px}
+  .wsteps .wc .d{font-size:12px;color:var(--ink-soft);margin-top:3px}
+
+  /* cards / generic */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px 24px;box-shadow:var(--shadow);margin-top:18px}
+  .card h3{font-size:16px;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+  .card h3 .n{display:inline-flex;width:24px;height:24px;border-radius:7px;background:var(--blue-soft);color:var(--blue);align-items:center;justify-content:center;font-size:12px;font-weight:700}
+
+  /* input form */
+  .form-row{display:grid;grid-template-columns:160px 1fr;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line-soft)}
+  .form-row:last-child{border-bottom:none}
+  .form-row .fl{font-size:14px;font-weight:600;color:var(--ink-soft)}
+  .form-row .fv{font-size:15px;font-weight:700;color:var(--blue);background:var(--blue-soft);border:1px solid var(--blue-line);border-radius:9px;padding:9px 14px;display:inline-block}
+  .stage-pills{display:flex;gap:8px;flex-wrap:wrap}
+  .stage-pills .pill{font-size:13px;padding:8px 16px;border-radius:999px;border:1.5px solid var(--line);color:var(--ink-faint);background:#fff;font-weight:600}
+  .stage-pills .pill.on{border-color:var(--blue);background:var(--blue);color:#fff}
+
+  /* sourcing checklist */
+  .src-table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px;margin-top:6px}
+  .src-table th,.src-table td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--line-soft)}
+  .src-table th{font-size:11.5px;letter-spacing:.04em;color:var(--ink-faint);text-transform:none}
+  .src-table td:first-child{font-weight:600}
+  .req{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:6px}
+  .req.must{background:var(--rose-soft);color:var(--rose)}
+  .req.rec{background:var(--amber-soft);color:var(--amber)}
+  .status-ok{color:var(--green);font-weight:700}
+  .status-no{color:var(--rose);font-weight:700}
+  .completeness{margin-top:18px;background:var(--green-soft);border:1px solid #bcdcc6;border-radius:12px;padding:14px 18px;font-size:13.5px;color:var(--green)}
+  .completeness.warn{background:var(--amber-soft);border-color:#e6cd96;color:#8a651f}
+  .completeness b{font-weight:700}
+
+  /* insight layer */
+  .mod-out{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:6px}
+  .mod-out .mo{background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:14px 16px}
+  .mod-out .mo .mh{font-size:13px;font-weight:700;color:var(--blue);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .mod-out .mo ul{list-style:none;font-size:12.5px;color:var(--ink-soft)}
+  .mod-out .mo li{padding-left:14px;position:relative;margin-bottom:3px}
+  .mod-out .mo li::before{content:"·";position:absolute;left:4px;color:var(--blue-line);font-weight:700}
+  .badge-src{font-size:10px;font-weight:600;padding:1px 7px;border-radius:5px;margin-left:4px}
+  .badge-src.a{background:var(--green-soft);color:var(--green)}
+  .badge-src.gap{background:var(--rose-soft);color:var(--rose)}
+
+  .keyq{margin-top:18px}
+  .keyq .ttl{font-size:13px;font-weight:700;color:var(--amber);letter-spacing:.04em;margin-bottom:10px}
+  .keyq .q{display:grid;grid-template-columns:30px 1fr;gap:12px;background:linear-gradient(180deg,var(--amber-soft),#fff 70%);border:1px solid #e6cd96;border-radius:11px;padding:13px 16px;margin-bottom:10px}
+  .keyq .q .qn{width:26px;height:26px;border-radius:7px;background:var(--amber);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+  .keyq .q .qt{font-size:13.5px}
+  .keyq .q .qt .conseq{display:block;font-size:12px;color:var(--ink-faint);margin-top:2px}
+
+  /* generic chevron flow */
+  .miniflow{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+  .miniflow .mf{flex:1;min-width:160px;background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:13px 15px}
+  .miniflow .mf .mk{font-size:11px;color:var(--blue);font-weight:700;letter-spacing:.04em}
+  .miniflow .mf .mv{font-size:13px;color:var(--ink-soft);margin-top:4px}
+
+  /* converge one-pager */
+  .onepager{background:linear-gradient(160deg,#fff,var(--blue-soft));border:2px solid var(--blue-line);border-radius:16px;padding:8px;margin-top:18px}
+  .onepager .ph{text-align:center;padding:16px;color:var(--blue);font-weight:700;letter-spacing:.05em;font-size:13px}
+  .qrow{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px 18px;margin:8px;display:grid;grid-template-columns:54px 1fr;gap:14px;align-items:start}
+  .qrow .qn{width:46px;height:46px;border-radius:11px;background:var(--blue);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:700}
+  .qrow .qn small{font-size:9px;font-weight:600;opacity:.8}
+  .qrow .qn b{font-size:18px}
+  .qrow .qc h4{font-size:15px;margin-bottom:6px}
+  .qrow .qc .item{font-size:13px;color:var(--ink-soft);padding:4px 0 4px 16px;position:relative}
+  .qrow .qc .item::before{content:"▸";position:absolute;left:0;color:var(--blue-line)}
+  .qrow .qc .src{font-size:11px;color:var(--ink-faint);margin-top:6px}
+
+  /* loading sim */
+  .loader{display:flex;align-items:center;gap:12px;padding:30px 24px;background:var(--card);border:1px dashed var(--blue-line);border-radius:var(--r);margin-top:18px;color:var(--blue);font-size:14px;font-weight:600}
+  .spinner{width:22px;height:22px;border:3px solid var(--blue-soft);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .gen-hidden{display:none}
+
+  .note{font-size:12px;color:var(--ink-faint);margin-top:16px;font-style:italic}
+
+  /* nav buttons */
+  .navbar{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);z-index:50}
+  .navbar .inner{max-width:1000px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:14px}
+  .navbar .hint{font-size:12.5px;color:var(--ink-faint);margin-right:auto}
+  .btn{font-family:inherit;font-size:14px;font-weight:700;padding:11px 24px;border-radius:10px;border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:.18s}
+  .btn:hover{border-color:var(--blue-line);color:var(--blue)}
+  .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+  .btn.primary:hover{background:var(--blue-deep);color:#fff}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+
+  @media(max-width:680px){
+    .steps .s .lbl{display:none}
+    .form-row{grid-template-columns:1fr}
+    .welcome h1{font-size:26px}
+    .qrow{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="inner">
+  <div class="titlerow">
+    <b>医学策略顾问 · 实操体验</b>
+    <span class="ctx" id="ctxBar"></span>
+  </div>
+  <div class="steps" id="stepNav"></div>
+</div></div>
+
+<div class="stage">
+
+  <!-- 0 欢迎 -->
+  <div class="panel show" data-step="0">
+    <div class="welcome">
+      <div class="hero-ic">🧭</div>
+      <h1>亲手走一遍<br>医学策略的推演流程</h1>
+      <p>这是一次互动体验。你将扮演使用者,从设定产品开始,一步步看着框架如何逐层把"一堆零散信息"推演成"管理层能拍板的一页纸"。</p>
+      <p style="color:var(--ink-faint);font-size:14px">本次体验以 <b>佩索利单抗 + 泛发性脓疱型银屑病(GPP)</b> 为示例场景。点"开始体验"启程。</p>
+      <div class="wsteps">
+        <div class="wc"><div class="k">STEP 1–2</div><div class="v">设定 + 备料</div><div class="d">定产品阶段,预检物料</div></div>
+        <div class="wc"><div class="k">STEP 3–6</div><div class="v">四层推演</div><div class="d">洞察→核心→执行→衡量</div></div>
+        <div class="wc"><div class="k">STEP 7</div><div class="v">决策收敛</div><div class="d">一页纸管理层问答</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1 输入设定 -->
+  <div class="panel" data-step="1">
+    <div class="phead">
+      <div class="eyebrow">STEP 1 · 输入层</div>
+      <h2>设定三个变量</h2>
+      <p class="lead">每次推演从三个变量开始。其中"生命周期阶段"是核心开关——它会决定后续每一层的重心与该备的物料。</p>
+    </div>
+    <div class="card">
+      <div class="form-row"><div class="fl">产品名称</div><div><span class="fv">佩索利单抗 (Spesolimab)</span></div></div>
+      <div class="form-row"><div class="fl">疾病领域</div><div><span class="fv">泛发性脓疱型银屑病 (GPP)</span></div></div>
+      <div class="form-row"><div class="fl">生命周期阶段</div><div class="stage-pills">
+        <span class="pill">上市前</span>
+        <span class="pill on">上市初期 ✓</span>
+        <span class="pill">成熟期</span>
+        <span class="pill">专利后期</span>
+      </div></div>
+    </div>
+    <p class="note">本示例选定"上市初期"。真实使用时,这一步由你输入,阶段不同,后面亮起的物料清单与各层重心都会随之变化。</p>
+  </div>
+
+  <!-- 2 物料预检 -->
+  <div class="panel" data-step="2">
+    <div class="phead">
+      <div class="eyebrow">STEP 2 · 物料准备层</div>
+      <h2>启动洞察前,先做备料预检</h2>
+      <p class="lead">框架不让你临场拼凑材料。它按"上市初期"自动亮起该备的物料清单,请你逐项确认,再算出数据完备度——缺什么、哪些结论会因此降级,一目了然。</p>
+    </div>
+    <div class="card">
+      <h3><span class="n">📋</span>上市初期 · 物料清单(节选)</h3>
+      <table class="src-table">
+        <thead><tr><th>物料类别</th><th>本阶段</th><th>备料确认</th></tr></thead>
+        <tbody>
+          <tr><td>关键 RCT 全文</td><td><span class="req must">必备</span></td><td class="status-ok">已备 ✓</td></tr>
+          <tr><td>竞品产品资料</td><td><span class="req must">必备</span></td><td class="status-ok">已备 ✓</td></tr>
+          <tr><td>本品说明书 + 核心证据</td><td><span class="req must">必备</span></td><td class="status-ok">已备 ✓</td></tr>
+          <tr><td>最新指南与共识</td><td><span class="req must">必备</span></td><td class="status-ok">已备 ✓</td></tr>
+          <tr><td>MSL / Ad Board 一手洞察</td><td><span class="req rec">推荐</span></td><td class="status-no">未备 ✗</td></tr>
+          <tr><td>药物经济学 / 准入材料</td><td><span class="req rec">推荐</span></td><td class="status-no">部分</td></tr>
+        </tbody>
+      </table>
+      <div class="completeness warn">
+        <b>数据完备度:必备项 4/4 ✓,推荐项缺 2 类。</b><br>
+        洞察与核心层可满血运行;涉及 KOL 真实影响力、准入价值的结论将自动标注 <b>[信息缺口]</b>,进入推断模式——绝不用幻觉补洞,缺口会一路传导到最终决策页。
+      </div>
+    </div>
+    <p class="note">这一步是框架的"预检关口":既不阻断分析,又让每个结论的"物料底气"全程透明。</p>
+  </div>
+
+  <!-- 3 洞察层 -->
+  <div class="panel" data-step="3">
+    <div class="phead">
+      <div class="eyebrow">STEP 3 · 第一层 · 洞察</div>
+      <h2>看清我们身处什么环境</h2>
+      <p class="lead">四个模块并行扫描疾病、产品、竞品、利益相关方,再"收口"成 2–4 个真正关键的问题——这是后面所有策略的唯一锚点。</p>
+    </div>
+    <div class="loader" data-loader="3"><div class="spinner"></div><span>正在并行推演 ①疾病 ②产品 ③竞品 ④利益相关方……</span></div>
+    <div class="gen-hidden" data-gen="3">
+      <div class="card">
+        <h3><span class="n">🔍</span>四模块产出(示意)</h3>
+        <div class="mod-out">
+          <div class="mo"><div class="mh">① 疾病领域理解</div><ul><li>急性发作可致命,确诊延迟<span class="badge-src a">A</span></li><li>诊疗断裂点:急性期仍靠激素拖延</li><li>未满足需求分层:急救 / 防复发</li></ul></div>
+          <div class="mo"><div class="mh">② 产品自身理解</div><ul><li>IL-36R 靶向,机制独立<span class="badge-src a">A</span></li><li>证据资产:急性期 RCT 已就位</li><li>短板:长期/特殊人群数据待补</li></ul></div>
+          <div class="mo"><div class="mh">③ 竞品格局分析</div><ul><li>同机制直接竞品有限</li><li>缺口矩阵:防复发证据可建独占</li><li>威胁时间线:0–2 年管线监测</li></ul></div>
+          <div class="mo"><div class="mh">④ 利益相关方生态</div><ul><li>KOL 分层名单 L0/L1/L2<span class="badge-src gap">缺口</span></li><li>学会/活动节奏已梳理</li><li>真实影响力待 MSL 核实</li></ul></div>
+        </div>
+      </div>
+      <div class="keyq">
+        <div class="ttl">▼ 洞察收口:逼出 3 个关键问题(后续策略的唯一锚点)</div>
+        <div class="q"><div class="qn">1</div><div class="qt">医生普遍把 GPP 当作普通银屑病的重型,未意识到它是 IL-36 驱动的独立急症。<span class="conseq">→ 不解决:急性发作仍用激素拖延,错过靶向干预窗口</span></div></div>
+        <div class="q"><div class="qn">2</div><div class="qt">本品在"预防复发"上的证据尚未被充分建立与传播。<span class="conseq">→ 不解决:定位停留在"急救",错失全程管理价值</span></div></div>
+        <div class="q"><div class="qn">3</div><div class="qt">关键 KOL 与学会对该病独立性的学术共识尚未形成。<span class="conseq">→ 不解决:指南纳入与推荐升级缺乏学术支点</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 核心层 -->
+  <div class="panel" data-step="4">
+    <div class="phead">
+      <div class="eyebrow">STEP 4 · 第二层 · 核心</div>
+      <h2>定方向、立身份、做取舍</h2>
+      <p class="lead">拿着 3 个关键问题反问:全解之后这个药该处在什么位置?由此立愿景、定对外身份、并敢于写"今年不做什么"。</p>
+    </div>
+    <div class="loader" data-loader="4"><div class="spinner"></div><span>正在收敛 ⑤愿景 ⑥定位 ⑦优先级……</span></div>
+    <div class="gen-hidden" data-gen="4">
+      <div class="card">
+        <h3><span class="n">⑤</span>医学愿景</h3>
+        <p style="font-size:14px;color:var(--ink-soft)">让 GPP 从"急性发作只能靠激素救命、反复住院",变成"可被精准靶向控制、并能预防发作"的疾病。<span class="badge-src a">回指关键问题 1+2</span></p>
+      </div>
+      <div class="card">
+        <h3><span class="n">⑥</span>科学定位(对外那张牌)</h3>
+        <p style="font-size:14px;color:var(--ink-soft)">对 GPP 急性发作患者——首个有 RCT 证据支持的 IL-36R 靶向治疗,快速控制 + 防复发证据。<br><span style="font-size:12px;color:var(--ink-faint)">支点来自③缺口矩阵:竞品做不到、而我方有证据的交集</span></p>
+      </div>
+      <div class="card">
+        <h3><span class="n">⑦</span>战略重点与取舍</h3>
+        <div class="miniflow">
+          <div class="mf"><div class="mk">🔴 先做</div><div class="mv">推动 GPP 独立疾病认知 + 指南纳入</div></div>
+          <div class="mf"><div class="mk">🔴 先做</div><div class="mv">建立并传播"防复发"核心证据</div></div>
+          <div class="mf"><div class="mk">⚫ 不做</div><div class="mv">暂缓 GPP 之外的超适应症探索(窗口未到)</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 执行层 -->
+  <div class="panel" data-step="5">
+    <div class="phead">
+      <div class="eyebrow">STEP 5 · 第三层 · 执行</div>
+      <h2>把策略落成具体动作</h2>
+      <p class="lead">执行层分两层:内容支柱(产出什么科学内容)× 触达层(内容如何走到受众面前)。每个动作都回指上面的策略。</p>
+    </div>
+    <div class="loader" data-loader="5"><div class="spinner"></div><span>正在规划 ⑧证据 ⑨传播 ⑩教育 ⑪KOL ⑫信息 ⑬数字化……</span></div>
+    <div class="gen-hidden" data-gen="5">
+      <div class="card">
+        <h3><span class="n">📦</span>内容支柱 ⑧–⑫(示意)</h3>
+        <div class="mod-out">
+          <div class="mo"><div class="mh">⑧ 证据生成</div><ul><li>启动防复发 RWE / IIT</li><li>补长期、特殊人群数据</li></ul></div>
+          <div class="mo"><div class="mh">⑨ 科学传播</div><ul><li>核心证据投顶刊</li><li>大会布局核心叙事</li></ul></div>
+          <div class="mo"><div class="mh">⑩ 医学教育</div><ul><li>GPP 独立性疾病教育</li><li>急性期识别 CME</li></ul></div>
+          <div class="mo"><div class="mh">⑪ KOL 互动</div><ul><li>消费④名单,匹配 Ad Board</li><li>L0/L1 共识共建</li></ul></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3><span class="n">⑬</span>触达层 · 全渠道编排</h3>
+        <p style="font-size:13.5px;color:var(--ink-soft)">把上述内容按受众认知旅程在多渠道统一编排:一篇发表 → 拆成会议 poster、教育微课、KOL 讨论素材、社媒科学摘要,统一核心信息、渠道适配形式;social listening 洞察回流洞察层,形成闭环。</p>
+      </div>
+      <p class="note">注:涉及 KOL 真实合作意愿的项,因 MSL 一手洞察未备,标注"待一线反馈核实"——缺口持续传导。</p>
+    </div>
+  </div>
+
+  <!-- 6 衡量层 -->
+  <div class="panel" data-step="6">
+    <div class="phead">
+      <div class="eyebrow">STEP 6 · 第四层 · 衡量</div>
+      <h2>怎么知道这些事做对了</h2>
+      <p class="lead">给每个战略重点配可证伪的验证标志。关键纪律:1 年期优先用"领先指标",让管理层在一年内就能看到进展信号,而非只能等终局。</p>
+    </div>
+    <div class="loader" data-loader="6"><div class="spinner"></div><span>正在为战略重点配置 ⑭ 衡量指标……</span></div>
+    <div class="gen-hidden" data-gen="6">
+      <div class="card">
+        <h3><span class="n">📊</span>衡量框架(示意)</h3>
+        <table class="src-table">
+          <thead><tr><th>对应战略重点</th><th>领先指标(早见)</th><th>滞后指标(终局)</th></tr></thead>
+          <tbody>
+            <tr><td>GPP 独立认知 + 指南</td><td>核心叙事在 ≥3 个大会落地</td><td>写入 ≥2 部国内核心指南</td></tr>
+            <tr><td>防复发证据建立</td><td>RWE 中国亚组完成读出、投稿 ≥1 篇</td><td>防复发适应症/推荐确立</td></tr>
+            <tr><td>KOL 学术共识</td><td>L0/L1 深度合作 ≥N 位</td><td>专家共识声明发布</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7 决策收敛 -->
+  <div class="panel" data-step="7">
+    <div class="phead">
+      <div class="eyebrow">STEP 7 · 第五层 · 决策收敛</div>
+      <h2>压缩成管理层的一页纸</h2>
+      <p class="lead">不产生任何新信息——只把前面所有分析,收敛为高管 5 分钟能读完、能拍板的四问递进。每个结论都能追溯回前序模块。</p>
+    </div>
+    <div class="loader" data-loader="7"><div class="spinner"></div><span>正在逆向收敛 ①–⑭ → 一页纸决策问答……</span></div>
+    <div class="gen-hidden" data-gen="7">
+      <div class="onepager">
+        <div class="ph">— 管理层决策问答 · 佩索利单抗 GPP · 上市初期 —</div>
+        <div class="qrow"><div class="qn"><small>问题</small><b>Q1</b></div><div class="qc"><h4>当下最关键的问题?</h4><div class="item">GPP 未被认作 IL-36 驱动的独立急症</div><div class="item">"防复发"价值尚未被证据与传播建立</div><div class="src">← 收敛自洞察层 ①②③④</div></div></div>
+        <div class="qrow"><div class="qn"><small>策略</small><b>Q2</b></div><div class="qc"><h4>解决问题的关键策略?</h4><div class="item">立"首个 IL-36R 靶向 + 防复发"科学定位</div><div class="item">资源压向独立认知与指南纳入,暂缓超适应症</div><div class="src">← 收敛自核心层 ⑤⑥⑦</div></div></div>
+        <div class="qrow"><div class="qn"><small>行动</small><b>Q3</b></div><div class="qc"><h4>当下最核心的几件事?(90 天)</h4><div class="item">启动防复发 RWE / IIT</div><div class="item">核心叙事在重点大会首发</div><div class="item">L0/L1 KOL Ad Board 共识共建</div><div class="src">← 收敛自执行层 ⑧–⑬</div></div></div>
+        <div class="qrow"><div class="qn"><small>验证</small><b>Q4</b></div><div class="qc"><h4>未来 1 年怎么验证?</h4><div class="item">第 12 月:RWE 中国亚组读出 + 投稿 ≥1 篇</div><div class="item">核心叙事落地 ≥3 个大会(领先指标)</div><div class="src">← 收敛自衡量层 ⑭</div></div></div>
+      </div>
+      <p class="note">⚠ 因 MSL 一手洞察与准入材料未完全备齐,涉及 KOL 真实影响力、准入价值的结论标注"待补齐后方可决策"——缺口诚实暴露到管理层视野,而非凑数掩盖。</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="navbar"><div class="inner">
+  <span class="hint" id="hint">点「开始体验」启程</span>
+  <button class="btn" id="prevBtn" onclick="go(-1)" disabled>← 上一步</button>
+  <button class="btn primary" id="nextBtn" onclick="go(1)">开始体验 →</button>
+</div></div>
+
+<script>
+  const STEPS = [
+    {k:"开始",   ng:false},
+    {k:"输入设定", ng:false},
+    {k:"物料预检", ng:false},
+    {k:"洞察层",  ng:true},
+    {k:"核心层",  ng:true},
+    {k:"执行层",  ng:true},
+    {k:"衡量层",  ng:true},
+    {k:"决策收敛", ng:true},
+  ];
+  let cur = 0;
+  const generated = {}; // 记录已"生成"过的步骤
+
+  // build step nav
+  const nav = document.getElementById('stepNav');
+  STEPS.forEach((s,i)=>{
+    const el = document.createElement('div');
+    el.className='s'; el.dataset.i=i;
+    el.innerHTML = `<div class="dot">${i===0?'·':i}</div><div class="lbl">${s.k}</div>`;
+    el.onclick = ()=>{ if(i<=maxReached) jump(i); };
+    nav.appendChild(el);
+  });
+  let maxReached = 0;
+
+  function render(){
+    document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('show', +p.dataset.step===cur));
+    document.querySelectorAll('#stepNav .s').forEach((el,i)=>{
+      el.classList.toggle('active', i===cur);
+      el.classList.toggle('done', i<cur);
+    });
+    // context bar
+    const ctx = document.getElementById('ctxBar');
+    ctx.innerHTML = cur>=1 ? `场景:<b>佩索利单抗</b> · <b>GPP</b> · <b>上市初期</b>` : '';
+    // buttons
+    document.getElementById('prevBtn').disabled = cur===0;
+    const nb = document.getElementById('nextBtn');
+    nb.textContent = cur===0 ? '开始体验 →' : (cur===STEPS.length-1 ? '完成 ✓' : '下一步 →');
+    nb.disabled = cur===STEPS.length-1;
+    // hint
+    const hints=["点「开始体验」启程","设定决定后续全部定制","预检让缺口全程透明","洞察收口出关键问题","策略锚定关键问题","动作回指策略","指标验证战略重点","一页纸 · 体验完成"];
+    document.getElementById('hint').textContent = hints[cur];
+    window.scrollTo({top:0,behavior:'smooth'});
+    // trigger generation animation
+    if(STEPS[cur].ng) runGen(cur);
+  }
+
+  function runGen(step){
+    const loader = document.querySelector(`[data-loader="${step}"]`);
+    const gen = document.querySelector(`[data-gen="${step}"]`);
+    if(!loader||!gen) return;
+    if(generated[step]){ loader.style.display='none'; gen.classList.remove('gen-hidden'); return; }
+    loader.style.display='flex'; gen.classList.add('gen-hidden');
+    setTimeout(()=>{
+      loader.style.display='none';
+      gen.classList.remove('gen-hidden');
+      generated[step]=true;
+    }, 1100);
+  }
+
+  function go(d){
+    const n = cur+d;
+    if(n<0||n>=STEPS.length) return;
+    cur=n; maxReached=Math.max(maxReached,cur); render();
+  }
+  function jump(i){ cur=i; render(); }
+
+  render();
+</script>
+</body>
+</html>

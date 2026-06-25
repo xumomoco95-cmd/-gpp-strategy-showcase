@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>佩索利单抗 GPP 全模块医学策略报告 · V6.2</title>
+<style>
+/* ===== CSS Variables ===== */
+:root{
+  --ink:#1a2433; --ink-soft:#48566b; --ink-faint:#8493a8;
+  --line:#dce3eb; --line-soft:#eef2f7; --paper:#f9fafc; --card:#fff;
+  --blue:#2f5d8a; --blue-soft:#e8f0f8; --blue-line:#bcd2e8; --blue-deep:#1e3f5f;
+  --teal:#2b7a78; --teal-soft:#e4f2f1;
+  --amber:#9a6d1d; --amber-soft:#fbf3e2;
+  --rose:#9c4a5e; --rose-soft:#f7e9ed;
+  --green:#2c6b40; --green-soft:#eaf5ee;
+  --shadow:0 1px 3px rgba(26,36,51,.05),0 4px 16px rgba(26,36,51,.04);
+  --shadow-lg:0 2px 8px rgba(26,36,51,.07),0 10px 32px rgba(26,36,51,.08);
+  --r:12px; --sidebar-w:260px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{
+  font-family:"PingFang SC","Microsoft YaHei","Segoe UI",-apple-system,sans-serif;
+  color:var(--ink);background:var(--paper);line-height:1.8;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ===== TOP TOOLBAR ===== */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,.88);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);padding:10px 24px;
+  display:flex;align-items:center;gap:12px;
+}
+.topbar .tbrand{font-weight:700;font-size:13px;color:var(--blue);margin-right:auto}
+.topbar .tbtn{
+  font-family:inherit;font-size:13px;font-weight:600;
+  padding:7px 16px;border-radius:8px;cursor:pointer;transition:.15s;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink-soft);
+  display:inline-flex;align-items:center;gap:6px;
+}
+.topbar .tbtn:hover{border-color:var(--blue-line);color:var(--blue)}
+.topbar .tbtn.pdf{background:var(--blue);border-color:var(--blue);color:#fff}
+.topbar .tbtn.pdf:hover{background:var(--blue-deep)}
+.topbar .tbtn.toc-toggle{font-size:12px;padding:7px 12px}
+@media(max-width:860px){
+  .topbar .tbrand{font-size:11px}
+  .topbar .tbtn{font-size:11px;padding:5px 10px}
+}
+
+/* ===== MAIN LAYOUT ===== */
+.main{display:flex;max-width:1280px;margin:0 auto;position:relative}
+
+/* ===== SIDEBAR TOC ===== */
+.sidebar{
+  position:sticky;top:57px;width:var(--sidebar-w);min-width:var(--sidebar-w);
+  height:calc(100vh - 57px);overflow-y:auto;padding:24px 0 40px 24px;
+  border-right:1px solid var(--line-soft);background:var(--card);
+  font-size:12.5px;line-height:1.6;
+}
+.sidebar h4{font-size:11px;letter-spacing:.1em;color:var(--ink-faint);margin-bottom:12px}
+.sidebar a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 8px;border-radius:5px;transition:.12s;border-left:2px solid transparent}
+.sidebar a:hover{color:var(--blue);background:var(--blue-soft);border-left-color:var(--blue-line)}
+.sidebar a.l1{font-weight:700;color:var(--ink);margin-top:2px}
+.sidebar a.current{background:var(--blue-soft)!important;border-left-color:var(--blue);color:var(--blue)}
+.sidebar a.l2{padding-left:18px;font-size:11.5px}
+.sidebar a.l3{padding-left:28px;font-size:11px;color:var(--ink-faint)}
+.sidebar .toc-section{margin-bottom:10px}
+/* 桌面端：可折叠目录 */
+body.toc-collapsed .sidebar{display:none}
+body.toc-collapsed .content{margin-left:auto;margin-right:auto}
+.topbar .tbtn.toc-toggle.on{background:var(--blue-soft);border-color:var(--blue-line);color:var(--blue)}
+/* 目录浮层遮罩（移动端） */
+.toc-mask{display:none;position:fixed;inset:0;background:rgba(26,36,51,.35);z-index:150}
+.toc-mask.show{display:block}
+@media(max-width:860px){.sidebar{display:none}.sidebar.open{display:block;position:fixed;top:0;left:0;z-index:200;width:280px;height:100vh;padding-top:60px;box-shadow:var(--shadow-lg)}}
+
+/* ===== CONTENT AREA ===== */
+.content{flex:1;min-width:0;padding:0 36px 110px;max-width:880px}
+
+/* ===== HERO ===== */
+.hero{padding:52px 0 40px;text-align:center}
+.hero .kicker{display:inline-block;font-size:11px;letter-spacing:.14em;color:var(--blue);background:var(--blue-soft);border:1px solid var(--blue-line);padding:4px 14px;border-radius:999px;margin-bottom:20px;font-weight:600}
+.hero h1{font-size:34px;line-height:1.35;letter-spacing:-.01em;margin-bottom:6px}
+.hero .sub{font-size:16px;color:var(--ink-soft);margin-bottom:6px}
+.hero .meta{font-size:12.5px;color:var(--ink-faint)}
+
+/* flow */
+.flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;justify-content:center;margin-top:28px}
+.flow .st{border:1px solid var(--line);border-radius:10px;padding:11px 14px;min-width:96px;text-align:center;box-shadow:var(--shadow);background:var(--card)}
+.flow .st .n{font-size:10px;color:var(--ink-faint);letter-spacing:.06em}
+.flow .st .t{font-weight:700;font-size:13px;margin-top:1px}
+.flow .ar{color:#c4cdd8;font-size:18px;padding:0 5px;display:flex;align-items:center}
+.flow .st.final{background:var(--blue);border-color:var(--blue);color:#fff}
+.flow .st.final .n{color:#cfe0f0}
+
+/* ===== SECTIONS ===== */
+.layer-section{padding:44px 0;border-bottom:1px solid var(--line-soft)}
+.layer-section:last-child{border-bottom:none}
+
+/* layer header */
+.layer-hdr{display:flex;align-items:flex-start;gap:16px;margin-bottom:8px}
+.layer-hdr .lh-bar{width:4px;min-height:48px;border-radius:2px;flex:none}
+.layer-hdr .lh-bar.i{background:var(--teal)}
+.layer-hdr .lh-bar.c{background:var(--blue)}
+.layer-hdr .lh-bar.e{background:var(--amber)}
+.layer-hdr .lh-bar.m{background:var(--green)}
+.layer-hdr .lh-bar.d{background:var(--blue-deep)}
+.layer-hdr .lh-txt .lh-num{font-size:11px;letter-spacing:.12em;font-weight:700;margin-bottom:4px}
+.layer-hdr .lh-txt h2{font-size:26px;letter-spacing:-.01em;margin-bottom:4px}
+.layer-hdr .lh-txt .lh-q{font-size:14px;color:var(--ink-soft)}
+
+/* layer intro card */
+.layer-intro{background:linear-gradient(135deg,var(--card),var(--blue-soft) 100%);border:1px solid var(--blue-line);border-radius:var(--r);padding:18px 22px;margin:16px 0 10px;font-size:13.5px;color:var(--ink-soft)}
+.layer-intro b{color:var(--blue)}
+
+/* subsection */
+.sec-title{font-size:19px;font-weight:700;margin:38px 0 6px;padding-bottom:8px;border-bottom:2px solid var(--blue-soft);display:flex;align-items:center;gap:10px}
+.sec-title .st-num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:var(--blue);color:#fff;font-size:14px;font-weight:700;flex:none}
+.sec-title .st-scope{font-size:12px;font-weight:400;color:var(--ink-faint);margin-left:8px}
+
+/* ===== CARDS ===== */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 24px;box-shadow:var(--shadow);margin-top:14px}
+.card h3{font-size:15px;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.card .card-lead{font-size:13.5px;color:var(--ink-soft);margin-bottom:4px}
+
+/* ===== TABLES ===== */
+.tbl-wrap{overflow-x:auto;margin-top:10px}
+table.data{width:100%;border-collapse:collapse;font-size:13px}
+table.data th,table.data td{padding:10px 13px;text-align:left;border-bottom:1px solid var(--line-soft)}
+table.data th{background:var(--blue-soft);color:var(--blue);font-size:11.5px;letter-spacing:.03em;font-weight:700;white-space:nowrap}
+table.data tr:last-child td{border-bottom:none}
+table.data tr:nth-child(even) td{background:rgba(232,240,248,.35)}
+table.data td:first-child{font-weight:600}
+
+/* ===== GRIDS ===== */
+.g2{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:10px}
+.g3{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:10px}
+.mod{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:15px 17px;box-shadow:var(--shadow)}
+.mod h4{font-size:14px;margin-bottom:5px}
+.mod p,.mod li{font-size:12.5px;color:var(--ink-soft);line-height:1.6}
+.mod ul{padding-left:15px}
+.mod li{margin-bottom:2px}
+
+/* ===== BADGES ===== */
+.badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px;margin-right:3px}
+.badge.a{background:var(--green-soft);color:var(--green)}
+.badge.b{background:var(--amber-soft);color:var(--amber)}
+.badge.gap{background:var(--rose-soft);color:var(--rose)}
+.badge.req{background:var(--rose-soft);color:var(--rose)}
+.badge.rec{background:var(--amber-soft);color:var(--amber)}
+
+/* ===== CALLOUTS ===== */
+.callout{padding:20px 24px;border-radius:var(--r);margin-top:16px;font-size:13.5px}
+.callout.info{background:linear-gradient(135deg,#fff,var(--blue-soft));border:1px solid var(--blue-line)}
+.callout.warn{background:linear-gradient(135deg,#fff,var(--amber-soft));border:1px solid var(--amber)}
+.callout.gap{background:linear-gradient(135deg,#fff,var(--rose-soft));border:1px solid var(--rose)}
+.callout h4{font-size:15px;margin-bottom:6px}
+
+/* ===== INSIGHT CONVERGE ===== */
+.keyq{margin-top:16px}
+.keyq .q{display:grid;grid-template-columns:36px 1fr;gap:12px;background:linear-gradient(135deg,var(--amber-soft),#fff 80%);border:1px solid #e6cd96;border-radius:11px;padding:13px 16px;margin-bottom:8px}
+.keyq .q .qn{width:28px;height:28px;border-radius:7px;background:var(--amber);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex:none}
+.keyq .q .qt{font-size:13.5px;line-height:1.65}
+.keyq .q .qt .conseq{display:block;font-size:12px;color:var(--ink-faint);margin-top:3px}
+
+/* ===== ONEPAGER ===== */
+.onepager{background:linear-gradient(160deg,#fff,var(--blue-soft));border:2px solid var(--blue-line);border-radius:16px;padding:6px;margin-top:16px}
+.onepager .ph{text-align:center;padding:14px;color:var(--blue);font-weight:700;letter-spacing:.05em;font-size:13px}
+.qrow{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:7px;display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:start}
+.qrow .qn{width:44px;height:44px;border-radius:10px;background:var(--blue);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:700}
+.qrow .qn small{font-size:8px;font-weight:600;opacity:.8}
+.qrow .qn b{font-size:17px}
+.qrow .qc h4{font-size:14.5px;margin-bottom:5px}
+.qrow .qc .item{font-size:13px;color:var(--ink-soft);padding:3px 0 3px 16px;position:relative}
+.qrow .qc .item::before{content:"▸";position:absolute;left:0;color:var(--blue-line)}
+.qrow .qc .src{font-size:11px;color:var(--ink-faint);margin-top:5px}
+
+/* ===== FOOTER ===== */
+footer{padding:40px 0;text-align:center;color:var(--ink-faint);font-size:12px;border-top:1px solid var(--line-soft)}
+
+/* ===== MISC ===== */
+.note{font-size:12px;color:var(--ink-faint);margin-top:10px;font-style:italic}
+.note b{color:var(--ink-soft)}
+.back-toc{display:inline-block;font-size:11px;color:var(--blue);text-decoration:none;margin-top:20px}
+.back-toc:hover{text-decoration:underline}
+.toc-section-divider{border:none;border-top:1px dashed var(--line);margin:16px 0}
+
+/* ===== PAGINATION (翻页模式) ===== */
+body.paged .pg{display:none}
+body.paged .pg.active{display:block;animation:pageIn .38s cubic-bezier(.22,.61,.36,1)}
+@keyframes pageIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+body.paged .layer-section{border-bottom:none;min-height:calc(100vh - 230px)}
+body.paged footer{display:none}
+
+/* top progress bar */
+.progress{position:sticky;top:55px;z-index:90;height:3px;background:var(--line-soft)}
+.progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--blue));transition:width .4s cubic-bezier(.22,.61,.36,1)}
+
+/* bottom floating pager */
+.pager{position:fixed;left:50%;transform:translateX(-50%);bottom:22px;z-index:120;
+  display:flex;align-items:center;gap:4px;padding:6px 8px;border-radius:999px;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(16px);
+  border:1px solid var(--line);box-shadow:var(--shadow-lg)}
+.pager .pg-btn{font-family:inherit;font-size:13px;font-weight:600;border:none;background:transparent;
+  color:var(--ink-soft);padding:8px 16px;border-radius:999px;cursor:pointer;transition:.15s;white-space:nowrap}
+.pager .pg-btn:hover:not(:disabled){background:var(--blue-soft);color:var(--blue)}
+.pager .pg-btn:disabled{opacity:.32;cursor:default}
+.pager .pg-mid{display:flex;flex-direction:column;align-items:center;line-height:1.25;padding:0 8px;min-width:128px;cursor:pointer}
+.pager .pg-mid #pgTitle{font-size:12.5px;font-weight:700;color:var(--ink);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pager .pg-count{font-size:10px;color:var(--ink-faint);letter-spacing:.04em}
+@media(max-width:860px){
+  .pager{bottom:14px;gap:0}
+  .pager .pg-btn{font-size:12px;padding:7px 12px}
+  .pager .pg-mid{min-width:84px}
+  .pager .pg-mid #pgTitle{max-width:96px}
+}
+
+/* hero CTA */
+.hero-cta{margin-top:30px;font-family:inherit;font-size:14px;font-weight:700;color:#fff;
+  background:var(--blue);border:none;padding:13px 30px;border-radius:999px;cursor:pointer;
+  box-shadow:var(--shadow-lg);transition:.18s}
+.hero-cta:hover{background:var(--blue-deep);transform:translateY(-2px)}
+.hero-cta:focus-visible,.pager .pg-btn:focus-visible,.topbar .tbtn:focus-visible,.flow .st:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.flow .st{cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s}
+.flow .st:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--blue-line)}
+
+/* card / mod hover lift */
+.card{transition:box-shadow .2s,transform .2s}
+.card:hover{box-shadow:var(--shadow-lg);transform:translateY(-1px)}
+.mod{transition:box-shadow .18s,transform .18s}
+.mod:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+
+/* ===== PRINT / PDF ===== */
+@media print{
+  /* 打印 / 导出 PDF 时展开全部页，关闭翻页控件 */
+  body.paged .pg{display:block!important}
+  body.paged footer{display:block!important}
+  .progress,.pager{display:none!important}
+  .topbar,.sidebar,.back-toc{display:none!important}
+  body{font-size:11pt;line-height:1.5;color:#000;background:#fff}
+  .main{display:block;max-width:100%}
+  .content{max-width:100%;padding:0}
+  .layer-section{padding:18px 0;page-break-inside:avoid}
+  .hero{padding:20px 0;text-align:left}
+  .hero h1{font-size:20pt}
+  .card{box-shadow:none;border:1px solid #ccc;padding:12px 16px;page-break-inside:avoid}
+  table.data{font-size:9pt}
+  table.data th,table.data td{padding:6px 8px}
+  .g2,.g3{grid-template-columns:1fr 1fr}
+  .flow{justify-content:flex-start}
+  .flow .ar{padding:0 3px;font-size:14px}
+  .onepager{border:2px solid #999}
+  .keyq .q{background:#fff;border:1px solid #ccc}
+  a{color:#000;text-decoration:none}
+  @page{margin:1.5cm}
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:860px){
+  .main{flex-direction:column}
+  .content{padding:0 16px 60px}
+  .hero h1{font-size:26px}
+  .layer-hdr .lh-txt h2{font-size:22px}
+  .g2{grid-template-columns:1fr}
+  .qrow{grid-template-columns:1fr}
+  .flow .ar{transform:rotate(90deg)}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== TOP TOOLBAR ===== -->
+<div class="topbar">
+  <span class="tbrand">📋 佩索利单抗 GPP · 全模块医学策略报告 V6.2</span>
+  <button class="tbtn toc-toggle on" onclick="toggleSidebar()" title="显示 / 隐藏目录">☰ 目录</button>
+  <button class="tbtn pdf" onclick="downloadPDF()">📥 下载 PDF</button>
+</div>
+<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+<!-- 移动端目录遮罩 -->
+<div class="toc-mask" id="tocMask" onclick="closeSidebar()"></div>
+
+<!-- ===== MAIN LAYOUT ===== -->
+<div class="main">
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" id="sidebar">
+  <h4>📑 报告目录</h4>
+  <div class="toc-section">
+    <a href="#sec-input" class="l1">输入与物料</a>
+    <a href="#sec-input" class="l2">确认三变量</a>
+    <a href="#sec-mat" class="l2">物料准备层预检</a>
+  </div>
+  <div class="toc-section">
+    <a href="#sec-insight" class="l1">第一层 · 洞察 ①②③④</a>
+    <a href="#sec-m1" class="l2">① 疾病领域理解</a>
+    <a href="#sec-m2" class="l2">② 产品自身理解</a>
+    <a href="#sec-m3" class="l2">③ 竞品格局分析</a>
+    <a href="#sec-m4" class="l2">④ 利益相关方生态</a>
+    <a href="#sec-converge" class="l2">洞察收口 · 3 关键问题</a>
+  </div>
+  <div class="toc-section">
+    <a href="#sec-core" class="l1">第二层 · 核心 ⑤⑥⑦</a>
+    <a href="#sec-m5" class="l2">⑤ 医学愿景与目标</a>
+    <a href="#sec-m6" class="l2">⑥ 科学定位与核心叙事</a>
+    <a href="#sec-m7" class="l2">⑦ 战略重点与优先级</a>
+  </div>
+  <div class="toc-section">
+    <a href="#sec-exec" class="l1">第三层 · 执行 ⑧–⑬</a>
+    <a href="#sec-m8" class="l2">⑧ 证据生成路线图</a>
+    <a href="#sec-m9" class="l2">⑨⑩⑪ 传播·教育·KOL</a>
+    <a href="#sec-m12" class="l2">⑫ 医学信息应答</a>
+    <a href="#sec-m13" class="l2">⑬ 数字化与全渠道</a>
+  </div>
+  <div class="toc-section">
+    <a href="#sec-measure" class="l1">第四层 · 衡量 ⑭⑮⑯⑰</a>
+    <a href="#sec-m14" class="l2">⑭ 衡量体系</a>
+    <a href="#sec-m1517" class="l2">⑮⑯⑰ 贯穿要素</a>
+  </div>
+  <div class="toc-section">
+    <a href="#sec-decision" class="l1">第五层 · 决策收敛 ⑱</a>
+  </div>
+  <div class="toc-section">
+    <a href="#sec-verify" class="l1">全局一致性核验</a>
+  </div>
+  <div class="toc-section">
+    <a href="#sec-ref" class="l1">参考文献</a>
+  </div>
+  <hr class="toc-section-divider">
+  <a href="#" onclick="downloadPDF();return false" style="color:var(--blue);font-weight:700;font-size:12px">📥 下载 PDF 版本</a>
+</aside>
+
+<!-- ===== CONTENT ===== -->
+<div class="content">
+
+<!-- ===== HERO ===== -->
+<header class="hero pg" id="pg-cover">
+  <span class="kicker">医学策略顾问 V6.2 · 全模块实战报告</span>
+  <h1>佩索利单抗（Spesolimab）<br>泛发性脓疱型银屑病（GPP）<br>全模块医学策略报告</h1>
+  <p class="sub">基于 26 篇本地文献 + 网络公开信息 · V6.2 提示词框架 18 模块全流程推演</p>
+  <p class="meta">报告生成：2026-06-25 · 阶段：上市初期 · 企业动态：BI → LEO Pharma（2025.10 完成全球权益收购）</p>
+  <div class="flow">
+    <div class="st" role="button" tabindex="0" onclick="goTo(1)" onkeydown="if(event.key==='Enter')goTo(1)"><div class="n">输入+物料</div><div class="t">3 域 11 类</div></div><div class="ar">→</div>
+    <div class="st" role="button" tabindex="0" onclick="goTo(2)" onkeydown="if(event.key==='Enter')goTo(2)"><div class="n">洞察 ①②③④</div><div class="t">4 模块→3 问题</div></div><div class="ar">→</div>
+    <div class="st" role="button" tabindex="0" onclick="goTo(3)" onkeydown="if(event.key==='Enter')goTo(3)"><div class="n">核心 ⑤⑥⑦</div><div class="t">愿景·定位·取舍</div></div><div class="ar">→</div>
+    <div class="st" role="button" tabindex="0" onclick="goTo(4)" onkeydown="if(event.key==='Enter')goTo(4)"><div class="n">执行 ⑧–⑬</div><div class="t">内容×触达</div></div><div class="ar">→</div>
+    <div class="st" role="button" tabindex="0" onclick="goTo(5)" onkeydown="if(event.key==='Enter')goTo(5)"><div class="n">衡量 ⑭</div><div class="t">领先+滞后</div></div><div class="ar">→</div>
+    <div class="st final" role="button" tabindex="0" onclick="goTo(6)" onkeydown="if(event.key==='Enter')goTo(6)"><div class="n">收口 ⑱</div><div class="t">4 问一页纸</div></div>
+  </div>
+  <button class="hero-cta" onclick="goTo(1)">开始阅读 →</button>
+</header>
+
+<!-- ============================================================ -->
+<!-- 输入层 + 物料准备层 -->
+<!-- ============================================================ -->
+<section class="layer-section pg" id="sec-input">
+<div class="layer-hdr">
+  <div class="lh-bar i"></div>
+  <div class="lh-txt">
+    <div class="lh-num" style="color:var(--teal)">第〇步 · INPUT + SOURCING</div>
+    <h2>输入层 + 物料准备层</h2>
+    <p class="lh-q">确认三变量 → 按阶段弹出物料清单 → 算数据完备度 → 缺料传导标记</p>
+  </div>
+</div>
+
+<div class="sec-title"><span class="st-num">IN</span>输入层：确认三个变量</div>
+<div class="tbl-wrap"><table class="data">
+  <tr><td style="width:130px;font-weight:700">产品名称</td><td>佩索利单抗（Spesolimab / 圣利卓<sup>®</sup> / Spevigo<sup>®</sup>）——人源化 IgG1 抗 IL-36R 单克隆抗体</td></tr>
+  <tr><td style="font-weight:700">疾病领域</td><td>泛发性脓疱型银屑病（Generalized Pustular Psoriasis, GPP）——独立于斑块状银屑病的罕见、可能危及生命的自身炎症性皮肤病</td></tr>
+  <tr><td style="font-weight:700">生命周期阶段</td><td><strong>上市初期</strong> · 2022.09 FDA 全球首批 · 2022.12 NMPA 中国首批 · 2024.03 SC 中国全球首批 · ~3.5 年</td></tr>
+  <tr><td style="font-weight:700">企业动态</td><td>原研 Boehringer Ingelheim → <strong>2025.10 LEO Pharma 完成全球权益收购</strong>（€90M 首付 + 里程碑 + 销售分成）</td></tr>
+</table></div>
+
+<div class="sec-title" id="sec-mat"><span class="st-num">📋</span>物料准备层：上市初期备料预检 <span class="st-scope">3 域 11 类 × 阶段定制</span></div>
+<div class="layer-intro">
+  <b>设计立场：</b>物料清单由框架预置，使用者"照单备料"。本层在启动洞察前，按上市初期阶段弹出定制化清单，逐项确认备料状态，算数据完备度，对缺料进行结构化降级处置。<b>预检通过准则——不阻断分析，但透明声明完备度，缺口诚实传导。</b>
+</div>
+
+<div class="card">
+  <h3>上市初期 · 物料准备清单与备料确认</h3>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>域</th><th>二级类</th><th>阶段要求</th><th>状态</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="4" style="font-weight:700;background:var(--blue-soft)">A. 公开循证域</td>
+        <td>A1 文献证据</td><td><span class="badge req">🔴必备</span></td><td style="color:var(--green);font-weight:700">✅ 已备</td><td>26 篇 TXT（含 NEJM Effisayil 1&2 + Lancet + RWE + Meta + 中国亚组）</td></tr>
+      <tr><td>A2 指南与共识</td><td><span class="badge req">🔴必备</span></td><td style="color:var(--green);font-weight:700">✅ 已备</td><td>8 部指南/共识（中国 2022/2024/2025 + NPF 2023 + APAC 2024 + JDA 2018 + IPC 2024 + 台湾 2024）</td></tr>
+      <tr><td>A3 会议情报</td><td><span class="badge req">🔴必备</span></td><td style="color:var(--amber);font-weight:700">🟡 部分</td><td>文献库含 2023-2024 会议文献；2025-2026 最新通过 WebSearch 补充</td></tr>
+      <tr><td>A4 文献库接口</td><td><span class="badge req">🔴必备</span></td><td style="color:var(--green);font-weight:700">✅ 已备</td><td>本地文献库 + PubMed/WebSearch</td></tr>
+      <tr><td rowspan="3" style="font-weight:700;background:var(--amber-soft)">B. 竞争情报域</td>
+        <td>B1 竞品产品资料</td><td><span class="badge req">🔴必备</span></td><td style="color:var(--amber);font-weight:700">🟡 部分</td><td>已识别 imsidolimab/瑞西奇拜单抗/TQH2929 等；缺完整说明书</td></tr>
+      <tr><td>B2 在研管线情报</td><td><span class="badge req">🔴必备</span></td><td style="color:var(--green);font-weight:700">✅ 已备</td><td>ClinicalTrials.gov + FDA + CDE + 行业媒体（截至 2026.06）</td></tr>
+      <tr><td>B3 第三方市场情报</td><td><span class="badge rec">🟡推荐</span></td><td style="color:var(--rose);font-weight:700">❌ 未备</td><td>无购买的市场调研报告/处方流向数据</td></tr>
+      <tr><td rowspan="3" style="font-weight:700;background:var(--rose-soft)">C. 内部一手域</td>
+        <td>C1 产品一手资料</td><td><span class="badge req">🔴必备</span></td><td style="color:var(--rose);font-weight:700">❌ 未备</td><td>无内部 CSR/CSP/DSUR——纯公开信息测试</td></tr>
+      <tr><td>C2 现场与专家洞察</td><td><span class="badge req">🔴必备</span></td><td style="color:var(--rose);font-weight:700">❌ 未备</td><td>无 MSL/Ad Board 一手洞见——KOL 真实影响力无法校验</td></tr>
+      <tr><td>C3 准入与政策资产</td><td><span class="badge rec">🟡推荐</span></td><td style="color:var(--rose);font-weight:700">❌ 未备</td><td>无药物经济学/HTA/医保谈判策略文件</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<div class="callout warn">
+  <h4>⚠ 数据完备度声明</h4>
+  <p><strong>必备项 8 项中：</strong>4 项完全齐备（A1/A2/A4/B2），2 项部分齐备（A3/B1），<strong>2 项核心缺口（C1/C2）</strong>。</p>
+  <p style="margin-top:6px"><strong>各域运行状态——</strong></p>
+  <ul style="margin:4px 0 0 18px">
+    <li><strong>A 公开循证域：满血运行</strong>——26 篇文献 + 8 部指南可支撑模块①②③④全分析</li>
+    <li><strong>B 竞争情报域：可支撑分析但标注 [推断]</strong>——竞品关键数据已获取，说明书与市场数据缺失</li>
+    <li><strong>C 内部一手域：完全缺失</strong>——涉及模块②④⑥⑧⑪的结论标记 <strong>[信息缺口]</strong>，传导至决策层 Q1–Q4</li>
+  </ul>
+</div>
+
+<a href="#" onclick="toggleSidebar();return false" class="back-toc">☰ 打开目录导航</a>
+</section>
+
+<!-- ============================================================ -->
+<!-- 第一层：洞察 -->
+<!-- ============================================================ -->
+<section class="layer-section pg" id="sec-insight">
+<div class="layer-hdr">
+  <div class="lh-bar i"></div>
+  <div class="lh-txt">
+    <div class="lh-num" style="color:var(--teal)">第一层 · INSIGHTS</div>
+    <h2>模块 ①–④ · 现状洞察</h2>
+    <p class="lh-q">回答：我们身处什么环境？</p>
+  </div>
+</div>
+
+<div class="layer-intro">
+  <b>四个模块并行扫描</b>疾病领域（①）、产品自身（②）、竞品格局（③）、利益相关方（④），交叉识别未满足需求与证据缺口，<b>收口为 3 个关键问题</b>——这是后面所有策略的唯一锚点。
+</div>
+
+<!-- ① -->
+<div class="sec-title" id="sec-m1"><span class="st-num">①</span>疾病领域理解 <span class="st-scope">服务：医学教育（需求评估）+ 证据生成（差距发现）</span></div>
+
+<div class="card">
+  <h3>GPP ≠ 斑块状银屑病重型 —— 核心病理生理机制</h3>
+  <p class="card-lead">GPP 是一种罕见的、可能危及生命的慢性自身炎症性皮肤病，在表型、遗传学和组织病理学上<strong>独立于斑块状银屑病</strong>，已被 ERASPEN（2017）→ NPF（2023）→ IPC（2024）→ APAC（2024）四级共识反复确认。<span class="badge a">A 级</span></p>
+  <p style="font-size:13.5px;margin-top:8px"><strong>核心通路：</strong>IL36RN 基因功能丧失突变 → IL-36Ra"刹车"失灵 → IL-36α/β/γ 过度激活 IL-36R → MyD88 → NF-κB + MAPK → 中性粒细胞趋化因子（CXCL1/2/8）→ 表皮中性粒细胞浸润 → <strong>Kogoj 海绵状脓疱</strong>。IL36RN 突变在中国 GPP 患者中高达 <strong>54.5%</strong>，最常见致病突变为 <strong>c.115+6T>C</strong>。这是佩索利单抗靶向治疗的科学根基。<span class="badge a">A 级</span></p>
+</div>
+
+<div class="g2">
+  <div class="mod"><h4>中国流行病学</h4><p>患病率 <strong>~14/百万人</strong>（1.403/10 万人年，Feng 2023 城镇医保数据）。推测全国约 2 万人。女性更常见（APAC 共识 83%）。Effisayil 2 女性占 62%。常见诱因：激素撤药（92%）、应激（100%）、感染（100%）、妊娠（100%）。<span class="badge a">A 级</span></p></div>
+  <div class="mod"><h4>疾病负担警示</h4><p>日本全国数据库（n=1,513）：住院死亡率 <strong>4.2%</strong>（激素治疗者 9.1% vs 生物制剂者 1.0%）。~50% 发作需住院。发作持续 2-5 周。发作间期残余红斑（84% 同意）。<span class="badge a">A 级</span></p></div>
+  <div class="mod"><h4>政策定位</h4><p><strong>第二批罕见病目录</strong>（2023.09，#33）。优先审评通道（70 工作日）。2023 版国家医保目录（续签至 2027.12.31）。2024-2025 年多家医院开设 GPP 专病门诊。<span class="badge a">A 级</span></p></div>
+  <div class="mod" style="border-color:var(--rose);border-left:3px solid var(--rose)"><h4>⚡ 三大诊疗断裂点</h4><p>① 非皮肤科医生不认识 GPP 是独立病→激素拖延，错过靶向窗口；② 基层无靶向药可及性（2024 全国仅 336 支 SC）；③ 缓解后无标准化长期管理→反复住院。<span class="badge a">A 级</span></p></div>
+</div>
+
+<div class="card">
+  <h3>APAC 2024 共识严重度三分级与治疗目标</h3>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>分级</th><th>BSA</th><th>GPPGA</th><th>系统症状</th><th>推荐策略</th></tr></thead>
+    <tbody>
+      <tr><td>轻度</td><td>&lt;3%</td><td>&lt;2</td><td>无</td><td>外用→阿维A→环孢素/MTX→生物制剂</td></tr>
+      <tr><td>中度</td><td>3%–&lt;10%</td><td>=2</td><td>无</td><td>非生物制剂（阿维A首选）→生物制剂</td></tr>
+      <tr><td><strong>重度</strong></td><td><strong>≥10%</strong></td><td><strong>≥3</strong></td><td>伴或不伴</td><td><strong>IL-36 抑制剂首选一线（92% 同意）</strong></td></tr>
+    </tbody>
+  </table></div>
+  <p style="font-size:12.5px;margin-top:6px"><strong>治疗目标（100% 同意）：</strong>发热消退 ≤1 周、脓疱清除 ≤2 周、皮肤清除 ≤4 周。<span class="badge a">A 级</span></p>
+</div>
+
+<div class="card">
+  <h3>六级指南体系与四大演变趋势</h3>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>指南/共识</th><th>机构</th><th>年份</th><th>核心推荐</th><th>DOI</th></tr></thead>
+    <tbody>
+      <tr><td>脓疱型银屑病诊疗中国专家共识</td><td>中华皮肤科杂志</td><td>2022</td><td>GPP+PPP+ACH 完整诊疗</td><td>10.35541/cjd.20210698</td></tr>
+      <tr><td>中国银屑病生物制剂及小分子药物治疗指南</td><td>中华医学会等</td><td>2024</td><td><strong>佩索利单抗独立专节</strong></td><td>10.35541/cjd.20240294</td></tr>
+      <tr><td>银屑病慢病管理专家共识</td><td>银屑病学组</td><td>2025</td><td>含 GPP 亚型的慢病管理框架</td><td>10.13735/j.cjdv...</td></tr>
+      <tr><td>NPF Consensus Statement on GPP</td><td>美国国家银屑病基金会</td><td>2023</td><td><strong>5 大核心共识</strong>；活检非必需；及时用已获批疗法</td><td>10.1016/j.jaad.2023.09.080</td></tr>
+      <tr><td>APAC Consensus on GPP</td><td>亚太 20 位专家</td><td>2024</td><td><strong>IL-36 抑制剂首选一线（92%）</strong></td><td>10.1111/1346-8138.17471</td></tr>
+      <tr><td>IPC International Consensus</td><td>国际银屑病理事会</td><td>2024</td><td>全球统一 GPP 定义和诊断标准</td><td>10.1001/jamadermatol...</td></tr>
+    </tbody>
+  </table></div>
+  <p style="font-size:13px;margin-top:8px"><strong>中国指南滞后评估：</strong>尚无 GPP 独立国家诊疗指南。2024 生物制剂指南已纳入本品独立专节，是当前最权威中国来源。</p>
+  <p style="font-size:13px"><strong>四大演变趋势：</strong>①"银屑病亚型"→"独立疾病实体"（四级共识递进）；②"经验治疗"→"循证靶向治疗"（JDA 2018 无 A 级→APAC 2024 IL-36 首选 92%）；③"发作治疗"→"全病程管理"（IV+SC）；④多层级共识体系形成（全球→区域→国家）。</p>
+</div>
+
+<!-- ② -->
+<div class="sec-title" id="sec-m2"><span class="st-num">②</span>产品自身理解 <span class="st-scope">服务：证据生成（基础盘点）+ 科学沟通（核心信息素材）</span></div>
+
+<div class="card">
+  <h3>全球及中国获批时间线</h3>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>日期</th><th>地区</th><th>获批内容</th><th>意义</th></tr></thead>
+    <tbody>
+      <tr><td>2022.09.01</td><td>美国 FDA</td><td>GPP 发作治疗（成人），IV 900mg</td><td>全球首批；孤儿药+突破性疗法+优先审评</td></tr>
+      <tr><td>2022.12</td><td>中国 NMPA</td><td>GPP 发作治疗（成人），IV 900mg</td><td>中国首批，罕见病目录+优先审评通道</td></tr>
+      <tr><td><strong>2024.03</strong></td><td><strong>中国 NMPA</strong></td><td><strong>SC 制剂全球首发：≥12 岁且≥40kg GPP 发作预防</strong></td><td><strong>中国全球首批 SC 剂型</strong></td></tr>
+      <tr><td>2024</td><td>美国 FDA</td><td>SC 制剂扩大适应症（≥12 岁且≥40kg）</td><td>跟随中国批准</td></tr>
+    </tbody>
+  </table></div>
+  <p style="font-size:13px;margin-top:6px">全球 53 国获批。剂型：IV 900mg 单次 90 分钟输注（症状持续 1 周后可重复）+ SC 600mg 负荷→300mg q4w。终末半衰期 25.5 天。不经肝肾消除。</p>
+</div>
+
+<div class="g2">
+  <div class="mod"><h4>🎯 作用机制：三层优势</h4><p><strong>靶点层级：</strong>上游 IL-36R，直接阻断 GPP 核心致病通路。<strong>通路特异性：</strong>高度特异 vs TNF/IL-17/IL-23 非特异性。<strong>基因关联：</strong>直接回应 IL36RN 突变——绕过内源性 IL-36Ra 缺陷。IL-36R 缺失突变人类个体无任何可识别表型——靶点安全性良好。<span class="badge a">A 级</span></p></div>
+  <div class="mod"><h4>🔬 Effisayil 1（急性）· NEJM</h4><p>Phase 2 RCT，n=53。IV 900mg：<strong>1 周脓疱清除 54% vs 6%</strong>（p&lt;0.001）。GPPGA 0/1 43% vs 11%（p=0.02）。亚洲亚组（n=29）：62.5% vs 7.7%。中国亚组（n=11）：60% vs 16.7%。<span class="badge a">A 级</span></p></div>
+  <div class="mod"><h4>🔬 Effisayil 2（预防）· Lancet</h4><p>Phase 2b RCT，n=123。SC 高剂量：<strong>48 周 90% 无发作 vs 48% 安慰剂</strong>，HR 0.16（p=0.0005）。4 周后 0% 发作。发作风险 ↓84%。事后分析（JAAD 2025）：63.3% 持续皮肤清除 vs 29% 安慰剂。<span class="badge a">A 级</span></p></div>
+  <div class="mod"><h4>🔄 EFFISAYIL ON（5 年 OLE）· AAD 2026</h4><p>n=131。<strong>84% 患者完全无发作。</strong>年发作率 2.0→<strong>0.13 次/年</strong>。≥3 年无发作 74.6%。IL36RN 突变者 <strong>100%</strong> 无发作。DLQI ≤4 为 63.2%。IV 救援：50% W1 脓疱清除。无新安全信号。<span class="badge a">A 级</span></p></div>
+  <div class="mod"><h4>🏥 中国真实世界证据</h4><p><strong>中国 EAP</strong>（n=39，12 中心）：75% W1 脓疱清除，无死亡/停药（CMJ 2025）。<strong>湘雅前瞻队列</strong>（n=16）：GPP 组 90.9% W8/12 GPPGA 0/1（JAAD 2025）。<strong>鼓楼回顾</strong>（n=6）：24h 脓疱明显消退（中华皮肤科杂志 2025）。<span class="badge a">A/B 级</span></p></div>
+  <div class="mod"><h4>🛡 安全性</h4><p>IV：感染 47%，SAE 12%（DRESS 2 例→RegiSCAR 排除）。SC：感染 33%（与 PBO 相当），无 DRESS。ADA 46%（低滴度不影响 PK；≥4000 时降低血药浓度）。ON：SAE 36.6%，因 AE 停药 4.6%，无新安全信号。<span class="badge a">A 级</span></p></div>
+</div>
+
+<div class="card">
+  <h3>证据差距四维度分析</h3>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>维度</th><th>当前缺口</th><th>紧迫度</th><th>建议</th></tr></thead>
+    <tbody>
+      <tr><td><strong>监管</strong></td><td>&lt;12 岁儿童无数据；妊娠期无系统研究；部分国家 SC 未获批</td><td>中-高</td><td>儿科 PK/PD 研究；妊娠期安全性登记</td></tr>
+      <tr><td><strong>支付</strong></td><td>中国 HTA/药物经济学空白；2027 医保续约缺价值证明</td><td>🔴 高</td><td>中国住院率降低+发作减少的成本效果分析</td></tr>
+      <tr><td><strong>临床</strong></td><td>无头对头比较；≥75 岁数据极少；长期>5 年数据收集中</td><td>中-高</td><td>ON 5 年 OLE；真实世界对比研究</td></tr>
+      <tr><td><strong>患者</strong></td><td>GPP 特异性 PRO 未开发；中国患者长期 QoL 数据缺乏</td><td>中</td><td>GPP 特异性 PRO 工具开发/验证</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ③ -->
+<div class="sec-title" id="sec-m3"><span class="st-num">③</span>竞品格局分析 <span class="st-scope">服务：科学沟通（差异化）+ 证据生成（竞争性证据需求）</span></div>
+
+<div class="card">
+  <h3>竞品分级（P0/P1/P2）与关键数据对比</h3>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>优先级</th><th>药物</th><th>企业</th><th>靶点</th><th>GPP 最高状态</th><th>中国状态</th><th>威胁</th></tr></thead>
+    <tbody>
+      <tr style="background:var(--rose-soft)"><td><strong>P0</strong></td><td><strong>Imsidolimab</strong></td><td>Vanda/AnaptysBio</td><td>IL-36R（IgG4）</td><td>BLA 审评中 · PDUFA <strong>2026.12.12</strong></td><td>无中国研发披露</td><td>🔴 0-1 年（美）</td></tr>
+      <tr style="background:var(--rose-soft)"><td><strong>P0</strong></td><td><strong>瑞西奇拜单抗</strong></td><td>华海药业/华奥泰</td><td>IL-36R（IgG1）</td><td>NDA <strong>2025.10</strong> 获 NMPA 受理 · 优先审评</td><td><strong>中国国产首发</strong></td><td>🔴 0-1 年（中）</td></tr>
+      <tr><td>P1</td><td>司库奇尤单抗</td><td>Novartis</td><td>IL-17A</td><td>日本获批 GPP（开放标签 n=12）</td><td>仅 PsO</td><td>🟡 1-2 年</td></tr>
+      <tr><td>P2</td><td>JNJ-77242113</td><td>Janssen</td><td>IL-23R（口服）</td><td>Phase III（日本）· 2026.1 结果已出</td><td>无中国披露</td><td>🟢 3 年+</td></tr>
+      <tr><td>P2</td><td>TQH2929</td><td>正大天晴</td><td>IL-36R</td><td>在研</td><td>在研</td><td>🟢 3 年+</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<div class="card">
+  <h3>本品 vs 竞品全维度对比</h3>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>维度</th><th>本品 Spesolimab</th><th>Imsidolimab</th><th>瑞西奇拜单抗</th><th>IL-17/23 抑制剂</th></tr></thead>
+    <tbody>
+      <tr><td><strong>靶点/骨架</strong></td><td>IL-36R · IgG1</td><td>IL-36R · <strong>IgG4</strong></td><td>IL-36R · IgG1</td><td>IL-17A/RA · IL-23 p19</td></tr>
+      <tr><td><strong>GPP 循证等级</strong></td><td><strong>2 项 RCT（n=176）</strong></td><td>2 项 RCT（n=45）</td><td>1 项 RCT（样本量待完整披露）</td><td>开放标签单臂（n≤12）</td></tr>
+      <tr><td><strong>发作治疗疗效</strong></td><td><strong>54% 脓疱清除 W1</strong></td><td>53.3% GPPGA 0/1 <strong>W4</strong></td><td>"W1 显著清除脓疱"</td><td>"改善"为主，无 RCT</td></tr>
+      <tr><td><strong>预防疗效</strong></td><td><strong>HR 0.16 · 5Y OLE 84% 无发作</strong></td><td>SC 维持 0% 发作 2 年</td><td>未披露预防数据</td><td><strong>无预防研究</strong></td></tr>
+      <tr><td><strong>中国数据</strong></td><td><strong>3 项 RWE + 亚组分析</strong></td><td>无</td><td>中国注册试验</td><td>无中国 GPP 数据</td></tr>
+      <tr><td><strong>指南地位</strong></td><td><strong>APAC 首选 92% · 中国独立专节</strong></td><td>未入指南</td><td>未入指南</td><td>可考虑（89%同意）</td></tr>
+      <tr><td><strong>ADA</strong></td><td>46%（IgG1）</td><td><strong>3.3%（IgG4）</strong></td><td>待披露</td><td>较低</td></tr>
+      <tr><td><strong>顶刊发表</strong></td><td><strong>NEJM + Lancet</strong></td><td>NEJM Evidence</td><td>—</td><td>专科期刊</td></tr>
+      <tr><td><strong>全病程</strong></td><td><strong>✅ IV+SC 双剂型双适应症</strong></td><td>仅 IV（在审）</td><td>仅 IV（在审）</td><td>❌ 无</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<div class="card">
+  <h3>🎯 证据缺口与策略机会矩阵（核心输出）</h3>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>临床问题</th><th>竞品状况</th><th>本品优势</th><th>策略建议</th></tr></thead>
+    <tbody>
+      <tr><td>GPP 急性快速控制</td><td>Imsi W4 53.3%；瑞西奇拜单抗"W1 清疱"声称</td><td><strong>W1 54% 脓疱清除（RCT，NEJM）</strong></td><td>抢先发表网络 Meta 间接比较</td></tr>
+      <tr><td>GPP 长期预防</td><td>Imsi 2 年 0% 发作（维持期）；瑞西奇拜单抗无预防数据</td><td><strong>48W 90% · 5Y OLE 84% 无发作</strong></td><td>发布 ON 5 年数据反制 Imsi 2Y</td></tr>
+      <tr><td>中国 IL36RN 分层</td><td>竞品无中国遗传学数据</td><td><strong>54.5% 突变率，c.115+6T>C 独特</strong></td><td>发表分层分析建精准医学壁垒</td></tr>
+      <tr><td>全程管理</td><td>竞品预防均未获批</td><td><strong>唯一 IV+SC 双剂型双适应症</strong></td><td>定义"全程管理"新标准</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<div class="callout warn">
+  <h4>⚠ 竞争威胁时间线 — 中国市场独占窗口正在关闭</h4>
+  <p><strong>全球：</strong>Imsidolimab 预计 2026.12 美国获批——首个同靶点竞品。<strong>中国：</strong>瑞西奇拜单抗 NDA 已受理（2025.10），优先审评，预计 2026-2027 获批——国产 IL-36R 价格优势是最大威胁。<strong>2 年无竞品窗口期是最宝贵的战略资产。</strong><span class="badge b">[推断]</span></p>
+</div>
+
+<!-- ④ -->
+<div class="sec-title" id="sec-m4"><span class="st-num">④</span>利益相关方生态 <span class="st-scope">只画地图（识别+分层+权力结构），不设计合作→交⑪</span></div>
+
+<div class="g2">
+  <div class="mod"><h4>🏛 核心学会</h4><p><strong>国内：</strong>中华医学会皮肤性病学分会（指南制定）、中国医师协会皮肤科医师分会（CDA 年会）、银屑病学组（领域专项）。<strong>国际：</strong>IPC（全球共识）、AAD/EADV/WCD。年度节奏：CDA 7 月 · AAD 3 月 · EADV 9 月 · WCD 2027。</p></div>
+  <div class="mod" style="border-left:3px solid var(--blue)"><h4>⭐ L0 前沿专家</h4><p><strong>郑敏</strong>（浙大二院）：Effisayil 1&2 中国 PI · 中国 EAP 第一作者 · ChiCTR2400089387 牵头 PI。<strong>张学军</strong>（安医大）：2022/2024/2025 三部中国指南/共识通信作者。<strong>史玉玲</strong>（同济皮肤病医院）：<strong>APAC 2024 中国代表</strong>。三位均是中国 GPP 指南更新和共识建立的核心枢纽。<span class="badge gap">现职待核</span></p></div>
+  <div class="mod"><h4>⭐ L1 关键意见领袖</h4><p><strong>王刚</strong>（西京医院）：2024 指南通信作者。<strong>高兴华</strong>（中国医大附一）、<strong>张福仁</strong>（山东省皮肤病医院）、<strong>徐金华</strong>（复旦华山）：中国 EAP 共同作者。徐金华为 Effisayil 1 中国研究者（NEJM 作者）。<strong>晋红中</strong>（协和）、<strong>张建中</strong>（北大人民）：2022 共识专家。<span class="badge gap">现职待核</span></p></div>
+  <div class="mod"><h4>🌐 国际核心 KOL</h4><p><strong>Mark G. Lebwohl</strong>（西奈山）：NEJM+Lancet 资深作者。<strong>Hervé Bachelez</strong>（巴黎）：NEJM 第一作者。<strong>A. David Burden</strong>（格拉斯哥）：综述唯一作者。<strong>Akimichi Morita</strong>（名古屋）：Lancet 第一作者。<strong>Siew Eng Choon</strong>（马来西亚）：APAC 共识联合主席。</p></div>
+  <div class="mod"><h4>🏗 学术权力结构</h4><p><strong>集中型——枢纽节点明确</strong>（郑敏/张学军/史玉玲），优先 engagement 效率高。指南影响者高度集中：张学军（2024 指南+2025 共识）、王刚（2024 指南）、史玉玲（APAC 2024 中国代表）。<strong>L2 区域专家和数字影响力评估完全缺失</strong>——标注 <b>[信息缺口]</b>。<span class="badge gap">缺口</span></p></div>
+  <div class="mod"><h4>患者组织与监管环境</h4><p>患者组织：银屑病病友互助网等——核心诉求为药物可及性和规范治疗。监管科学：罕见病目录纳入（2023）为医保谈判提供价值论证基础；优先审评通道持续受益。罕见病专项政策与 GPP 专病门诊建设为医学教育和患者识别提供了制度支撑。</p></div>
+</div>
+
+<!-- 洞察收口 -->
+<div class="sec-title" id="sec-converge"><span class="st-num">▼</span>洞察收口 · 提炼 3 个关键问题 <span class="st-scope">核心层与决策层 Q1 的共同底稿</span></div>
+
+<div class="card" style="border:2px solid var(--blue-line);background:linear-gradient(180deg,var(--blue-soft) 0%,#fff 70%)">
+  <p class="card-lead" style="margin-bottom:10px"><strong>收口逻辑：</strong>①②③④ 全部产出后，海量分析收敛为 3 个真正关键的问题。每条写为"现状缺口 + 后果"一句大白话，过三道筛（战略性 × 可作为性 × 紧迫性）。去重归并后的结果：</p>
+  <div class="keyq">
+    <div class="q"><div class="qn">1</div><div class="qt">医生普遍把 GPP 当成"重型银屑病"而非 IL-36 驱动的独立急症，急性发作时仍在用激素/环孢素拖延，错过靶向干预窗口。<span class="conseq">→ 不解决：疾病认知锚定错误 → 定位无法传递 → 永远在"纠正误解"</span></div></div>
+    <div class="q"><div class="qn">2</div><div class="qt">先发优势窗口正在关闭——瑞西奇拜单抗（NDA 2025.10，优先审评）预计 2026-2027 中国获批，imsidolimab（PDUFA 2026.12）即将美国上市，"唯一 IL-36R"定位面临双线失效。<span class="conseq">→ 不解决：被迫与国产低价竞品价格战 → 品牌溢价消失</span></div></div>
+    <div class="q"><div class="qn">3</div><div class="qt">GPP 长期预防市场几乎空白——SC 剂型 2024 年全球首批但渗透率极低（2024 全国仅 336 支），患者"发作→住院→回家→再发作"的轮回未被打破。<span class="conseq">→ 不解决：错过"预防"范式教育窗口 → SC 变 IV 附加品</span></div></div>
+  </div>
+  <p style="font-size:12px;color:var(--ink-faint);margin-top:8px">证伪式筛选：三条分别对应"认知→竞争→范式"三个独立维度，删任一条会根本改变后续策略方向，保留。</p>
+</div>
+
+<a href="#" onclick="toggleSidebar();return false" class="back-toc">☰ 打开目录导航</a>
+</section>
+
+<!-- ============================================================ -->
+<!-- 第二层：核心 -->
+<!-- ============================================================ -->
+<section class="layer-section pg" id="sec-core">
+<div class="layer-hdr">
+  <div class="lh-bar c"></div>
+  <div class="lh-txt">
+    <div class="lh-num" style="color:var(--blue)">第二层 · CORE</div>
+    <h2>模块 ⑤–⑦ · 策略核心</h2>
+    <p class="lh-q">回答：我们要去哪里、凭什么？</p>
+  </div>
+</div>
+<div class="layer-intro">
+  <b>拿着 3 个关键问题反问：</b>全解之后这个药该处在什么位置？由此立愿景（⑤）、定对外身份（⑥）、写"今年不做什么"（⑦）。
+</div>
+
+<!-- ⑤ -->
+<div class="sec-title" id="sec-m5"><span class="st-num">⑤</span>医学愿景与目标</div>
+
+<div class="card" style="border:2px solid var(--blue-line);background:linear-gradient(180deg,var(--blue-soft) 0%,#fff 60%)">
+  <h3>愿景陈述 <span style="font-size:12px;color:var(--ink-faint);font-weight:400">（句式规范：以疾病/患者为主语，描述 3-5 年理想终局）</span></h3>
+  <p style="font-size:18px;font-weight:700;color:var(--blue);margin:10px 0;padding:12px 18px;border-left:3px solid var(--blue);background:#fff;border-radius:4px">"让 GPP 从'急性发作只能靠激素救命、反复住院'的恐惧循环，变成'可被精准靶向快速控制、并能长期预防复发'的可管理的慢性疾病。"</p>
+  <p style="font-size:12px;color:var(--ink-soft)"><strong>三自检：</strong>✅ 以疾病/患者为主语 ✅ 反推回 3 个关键问题全解后的终局 ✅ 够远不空（3-5 年方向，非 KPI）</p>
+</div>
+
+<div class="card">
+  <h3>关键问题 → 愿景对照 + 阶段性 SMART 目标</h3>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>关键问题</th><th>愿景如何覆盖</th></tr></thead>
+    <tbody>
+      <tr><td>① 医生不认识 GPP 是独立急症</td><td>"精准靶向快速控制"——意味着医生已理解 IL-36 驱动机制并首选靶向治疗</td></tr>
+      <tr><td>② 先发优势窗口关闭</td><td>"可被精准靶向"——本品作为标准治疗（非"唯一"），靠最完整证据链维持首选</td></tr>
+      <tr><td>③ SC 预防渗透率极低</td><td>"长期预防复发"——预防已成为 GPP 标准管理，SC 是常规处方</td></tr>
+    </tbody>
+  </table></div>
+  <div class="g2" style="margin-top:10px">
+    <div class="mod"><h4>T1 · 24 个月</h4><p>推动 GPP 作为"IL-36 驱动的独立疾病实体"写入 ≥2 部中国核心指南的独立篇章。<span class="badge gap">C 域缺：指南更新时间表待注册团队确认</span></p></div>
+    <div class="mod"><h4>T2 · 18 个月</h4><p>完成 ≥1 项中国 SC 预防队列研究的方案定稿并启动入组（ChiCTR2400089387 或新立项）。<span class="badge gap">C1 域缺：需先核查内部未发表数据</span></p></div>
+    <div class="mod"><h4>T3 · 12 个月</h4><p>完成间接比较/网络 Meta ≥1 篇，发表于 SCI 期刊。在竞品获批前建立"最完整证据链"学术定位。</p></div>
+  </div>
+</div>
+
+<!-- ⑥ -->
+<div class="sec-title" id="sec-m6"><span class="st-num">⑥</span>科学定位与核心叙事</div>
+
+<div class="card" style="border:2px solid var(--amber);background:linear-gradient(180deg,#fff,var(--amber-soft) 100%)">
+  <h3>科学定位声明（对外那张牌）</h3>
+  <p style="font-size:16px;font-weight:700;color:var(--ink);margin:10px 0;padding:10px 18px;border-left:3px solid var(--amber);background:#fff;border-radius:4px">"对于 GPP 患者——无论是急性发作的抢救还是缓解后的复发预防——佩索利单抗是目前<strong>唯一同时拥有急性治疗和长期预防 RCT 证据、中国真实世界数据和 IV+SC 完整方案获批的 IL-36R 靶向治疗。</strong>"</p>
+  <p style="font-size:12px;color:var(--ink-faint)">"唯一"有监管/指南硬支撑（中国 2024 指南确认"其他生物制剂在我国均未被批准用于脓疱型银屑病"），符合使用红线。</p>
+</div>
+
+<div class="card">
+  <h3>差异化支点推导：②优势 × ③缺口 → 过三道关</h3>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>候选支点</th><th>②优势</th><th>③竞品缺口</th><th>真实性</th><th>独占性</th><th>相关性</th><th>结果</th></tr></thead>
+    <tbody>
+      <tr><td>最快起效（W1 54%）</td><td>Effisayil 1 · NEJM</td><td>Imsidolimab 主要终点为 W4</td><td>✅ A 级</td><td>✅ W1 终点独占</td><td>✅ 急性期核心需求</td><td><strong>✅ 通过</strong></td></tr>
+      <tr><td>唯一有 RCT 级预防证据</td><td>Effisayil 2 · Lancet</td><td>Imsidolimab 有维持数据但非独立预防试验</td><td>✅ A 级</td><td>⚠ 需区分表述</td><td>✅ "不复发"被低估</td><td><strong>✅ 通过</strong></td></tr>
+      <tr><td>最完整中国证据包</td><td>3 项 RWE + 亚组</td><td>瑞西奇拜单抗有中国注册试验</td><td>✅ A/B 级</td><td>⚠ 窗口有限</td><td>✅ 中国医生重视</td><td>⚠ 通过（加速）</td></tr>
+      <tr><td>IL36RN 精准医学</td><td>54.5% 突变率</td><td>竞品无遗传学数据</td><td>✅ A 级</td><td>✅ 独占</td><td>🟡 需教育</td><td><strong>✅ 通过</strong></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<div class="card">
+  <h3>核心叙事三条信息（Core Claims）—— 每条有证据钉死</h3>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>核心信息</th><th>支撑证据</th><th>等级</th><th>对应关键问题</th></tr></thead>
+    <tbody>
+      <tr><td><strong>信息 1 · 快速救命</strong>——IV 单次给药，1 周内 54% 脓疱完全清除</td><td>Effisayil 1（NEJM 2021）· 中国 EAP 75% W1（CMJ）· 中国亚组 60%</td><td>A</td><td>关键问题 1（医生不认识病→需要"眼见为实"的疗效）</td></tr>
+      <tr><td><strong>信息 2 · 全程预防</strong>——SC 维持使发作风险 ↓84%，5 年 84% 完全无发作</td><td>Effisayil 2（Lancet 2023）· EFFISAYIL ON（AAD 2026）</td><td>A</td><td>关键问题 3（SC 渗透率低→需要"预防有价值"的长期证据）</td></tr>
+      <tr><td><strong>信息 3 · 精准靶向</strong>——直接阻断 GPP 核心通路 IL-36R，54.5% 突变不影响疗效</td><td>APAC 共识 2024 · Effisayil 1 中国亚组 · ON IL36RN 亚组 100% 无发作</td><td>A</td><td>关键问题 2（竞品压力→需要在"机制精准性"维度建壁垒）</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ⑦ -->
+<div class="sec-title" id="sec-m7"><span class="st-num">⑦</span>战略重点与优先级 <span class="st-scope">敢写"不做什么"</span></div>
+
+<div class="card">
+  <h3>优先级矩阵 — 候选命题填入四象限</h3>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th></th><th>高紧迫（窗口期 0-2 年）</th><th>低紧迫（2 年+）</th></tr></thead>
+    <tbody>
+      <tr><td><strong>高影响</strong></td>
+      <td style="background:var(--rose-soft)">
+        <strong>🔴 A：建立 GPP 独立疾病认知</strong><br>
+        <strong>🔴 B：强化"全程管理"定位</strong><br>
+        <strong>🔴 C：竞品上市前证据升级</strong>
+      </td>
+      <td style="background:var(--amber-soft)">
+        <strong>🟡 布局：</strong>IL36RN 精准医学叙事<br>
+        <strong>🟡 布局：</strong>儿童/青少年数据
+      </td>
+    </tr>
+    <tr><td><strong>低影响</strong></td>
+      <td style="background:var(--paper)">
+        <strong>⚪ 维持：</strong>合规治理⑮ · 医学信息⑫
+      </td>
+      <td style="background:var(--paper);border:1px dashed var(--line)">
+        <strong>⚫ 不做：</strong>超适应症探索（HS/PG/ACH）<br>
+        <strong>⚫ 不做：</strong>大规模基层教育（先让专科饱和）<br>
+        <strong>⚫ 不做：</strong>与 IL-17/IL-23 厂商正面科学竞争
+      </td>
+    </tr>
+  </tbody>
+  </table></div>
+  <p style="font-size:12.5px;margin-top:8px"><strong>关键纪律：</strong>🔴 战略重点 3 项封顶。超过就是没取舍。每项"不做"都给了一句理由。</p>
+</div>
+
+<a href="#" onclick="toggleSidebar();return false" class="back-toc">☰ 打开目录导航</a>
+</section>
+
+<!-- ============================================================ -->
+<!-- 第三层：执行 -->
+<!-- ============================================================ -->
+<section class="layer-section pg" id="sec-exec">
+<div class="layer-hdr">
+  <div class="lh-bar e"></div>
+  <div class="lh-txt">
+    <div class="lh-num" style="color:var(--amber)">第三层 · PILLARS</div>
+    <h2>模块 ⑧–⑬ · 执行支柱</h2>
+    <p class="lh-q">回答：我们具体做什么？（内容支柱⑧–⑫ WHAT × 触达层⑬ HOW）</p>
+  </div>
+</div>
+
+<!-- ⑧ -->
+<div class="sec-title" id="sec-m8"><span class="st-num">⑧</span>证据生成路线图</div>
+<div class="card">
+  <p class="card-lead">证据生成不凭空立项——每一项都回指②/③已识别的缺口。同一个缺口能用低成本工具（IIT/RWE）先补的，不上 RCT。</p>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>#</th><th>证据项</th><th>补哪个缺口</th><th>类型</th><th>优先级</th><th>时间窗</th><th>服务的核心信息</th></tr></thead>
+    <tbody>
+      <tr><td><strong>E1</strong></td><td>Spesolimab vs 竞品 间接比较/网络 Meta</td><td>← ②临床 + ③缺口矩阵</td><td>Meta</td><td>🔴</td><td>0–9 月</td><td>信息 1 "快速救命"</td></tr>
+      <tr><td><strong>E2</strong></td><td>中国 SC 预防多中心前瞻队列（ChiCTR2400089387/新立项）</td><td>← ②支付/临床</td><td>RWE</td><td>🔴</td><td>0–18 月</td><td>信息 2 "全程预防"</td></tr>
+      <tr><td><strong>E3</strong></td><td>竞品获批 48h 快速响应间接比较（Battle Card）</td><td>← ③缺口矩阵（防御）</td><td>桌面</td><td>🔴</td><td>按获批触发</td><td>信息 1 + 关键问题②</td></tr>
+      <tr><td><strong>E4</strong></td><td>IL36RN 突变分层分析（EAP+Effisayil 1 中国亚组+ON）</td><td>← ②临床 + ③差异化</td><td>回顾</td><td>🟡</td><td>0–12 月</td><td>信息 3 "精准靶向"</td></tr>
+      <tr><td><strong>E5</strong></td><td>中国 GPP 疾病负担与预算影响分析模型</td><td>← ②支付</td><td>HE</td><td>🟡</td><td>0–18 月</td><td>2027 医保续约</td></tr>
+      <tr><td><strong>E6</strong></td><td>Effisayil 2 中国事后分析完整发表</td><td>← ②临床</td><td>事后</td><td>🟡</td><td>0–9 月</td><td>信息 2 + 中国数据</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note"><b>[信息缺口]：</b>C1 缺失——无法核实内部是否有未发表数据填补 E4/E5/E6 缺口，避免重复立项。E2 前必须先核查内部数据资产。</p>
+</div>
+
+<!-- ⑨⑩⑪ -->
+<div class="sec-title" id="sec-m9"><span class="st-num">⑨⑩⑪</span>科学传播 / 医学教育 / KOL 互动（联合规划）</div>
+<div class="g2">
+  <div class="mod"><h4>⑨ 科学传播与发表（12-18 月）</h4>
+    <ul><li>网络 Meta → <strong>JAAD / BJD</strong>（2026Q4 投稿）</li>
+    <li>范式转变综述 → <strong>Nat Rev Dis Primers</strong>（2026Q4，L0 共著）</li>
+    <li>SC 预防中期 → <strong>Lancet Reg Health WP</strong>（2027Q3）</li>
+    <li>IL36RN 分层 → <strong>JID / JAMA Derm</strong>（2027Q1）</li>
+    <li>ON 5 年中国亚组 → <strong>中华皮肤科杂志</strong>（2027Q2）</li></ul>
+    <p style="margin-top:6px"><strong>会议：</strong>CDA 2026（7 月）卫星会+LB · AAD 2027（3 月）ON 完整发布 · WCD 2027 · EADV 2027</p>
+  </div>
+  <div class="mod"><h4>⑩ 医学教育（2026Q3 启动）</h4>
+    <ul><li><strong>"GPP 不是银屑病"CME 系列：</strong>3 期线上+5 城线下，目标 ≥2,000 HCP</li>
+    <li><strong>急诊科识别工具包：</strong>口袋卡片+微信小程序（GPP vs AGEP vs 感染快速鉴别）</li>
+    <li><strong>MSL 内部培训 V6.2 全模块：</strong>统一科学叙事</li>
+    <li><strong>区域病例交流会：</strong>月度线上+季度线下</li></ul>
+  </div>
+  <div class="mod" style="border-color:var(--amber);border-left:3px solid var(--amber)"><h4>⑪ KOL/专家互动（消费④名单）</h4>
+    <p style="font-size:12.5px"><strong>分层 Engagement 矩阵：</strong></p>
+    <table class="data" style="font-size:11.5px;margin-top:4px">
+      <thead><tr><th>分层</th><th>模型</th><th>性质</th></tr></thead>
+      <tbody>
+        <tr><td>L0</td><td>Ad Board · 共识共建 · IIT PI</td><td>战略级共创</td></tr>
+        <tr><td>L1</td><td>大会讲者 · 指南参与</td><td>声量放大</td></tr>
+        <tr><td>L2</td><td>区域教育 · MSL 一对一</td><td>覆盖下沉</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:12.5px;margin-top:6px"><strong>2026Q3-Q4 关键动作：</strong>Ad Board（L0 郑敏+张学军+史玉玲）审议共识框架+E2 方案 · CDA 2026 卫星会首发 ON 中国数据 · MSL 季度（L0）/月度（L1）深入拜访。<span class="badge gap">C2 域缺：KOL 真实合作意愿待 MSL 反馈</span></p>
+  </div>
+</div>
+
+<!-- ⑫ -->
+<div class="sec-title" id="sec-m12"><span class="st-num">⑫</span>医学信息应答</div>
+<div class="card">
+  <ul style="margin:0 0 0 18px;font-size:13.5px">
+    <li><strong>SRL 更新：</strong>基于 ON 最新数据和竞品信息（imsidolimab PDUFA、瑞西奇拜单抗 NDA）更新所有 GPP 标准应答文档</li>
+    <li><strong>竞品问答库（Battle Book）：</strong>预置竞品获批后最可能医学问询（机制/疗效/安全性/指南）的 A/B 级证据支撑应答</li>
+    <li><strong>MI 数据追踪：</strong>MSL 反馈的问询类型与频次 → 回流洞察层①③</li>
+  </ul>
+</div>
+
+<!-- ⑬ -->
+<div class="sec-title" id="sec-m13"><span class="st-num">⑬</span>数字化与全渠道 · 触达编排层 <span class="st-scope">贯穿⑨–⑫的内容"怎么走出去"</span></div>
+<div class="card">
+  <h3>角色 A · 全渠道地图（以 HCP 认知旅程为轴）</h3>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>旅程阶段</th><th>核心内容</th><th>渠道组合</th><th>时间</th></tr></thead>
+    <tbody>
+      <tr><td><strong>认知</strong></td><td>"GPP 不是银屑病"CME + 急诊工具包</td><td>线上直播+线下巡讲+小程序+科学号</td><td>2026Q3</td></tr>
+      <tr><td><strong>理解</strong></td><td>核心叙事三条信息完整展开</td><td>卫星会+KOL 专访+内容中枢+回放</td><td>2026Q4–2027Q1</td></tr>
+      <tr><td><strong>认同</strong></td><td>ON 5 年数据+中国 RWE+Meta</td><td>顶刊发表+大会 LB+Ad Board 面对面</td><td>2027Q1–Q3</td></tr>
+      <tr><td><strong>改变实践</strong></td><td>病例讨论+RWE 分享+全程路径</td><td>MSL 一对一+区域病例会+内容中枢</td><td>2027 持续</td></tr>
+    </tbody>
+  </table></div>
+</div>
+<div class="card">
+  <h3>角色 B · 数字原生活动</h3>
+  <div class="g2">
+    <div class="mod"><h4>🔴 内容中枢 MVP</h4><p>微信小程序/H5，面向 HCP 的科学资源平台。2026Q4 上线。可追踪→喂⑭。</p></div>
+    <div class="mod"><h4>🔴 Social Listening</h4><p>2026Q3-4 产出 GPP 认知基线报告。洞察回流①③④。</p></div>
+    <div class="mod"><h4>🔴 皮肤科专业号</h4><p>丁香园/医脉通建立官方科学号。2026Q4 启动。</p></div>
+    <div class="mod"><h4>🟡 DOL + 线上社群</h4><p>2027 推进。补④/⑪的"数字影响力"维度。</p></div>
+  </div>
+  <p style="margin-top:8px;font-size:13px"><strong>数据闭环：</strong>内容中枢→⑭领先指标 · Social listening→回流①③④ · 线上 CME→⑭教育效果指标。<span class="badge gap">C 域缺：数字渠道执行数据待内部确认</span></p>
+</div>
+
+<a href="#" onclick="toggleSidebar();return false" class="back-toc">☰ 打开目录导航</a>
+</section>
+
+<!-- ============================================================ -->
+<!-- 第四层：衡量 -->
+<!-- ============================================================ -->
+<section class="layer-section pg" id="sec-measure">
+<div class="layer-hdr">
+  <div class="lh-bar m"></div>
+  <div class="lh-txt">
+    <div class="lh-num" style="color:var(--green)">第四层 · MEASURE</div>
+    <h2>模块 ⑭⑮⑯⑰ · 衡量与优化 + 贯穿要素</h2>
+    <p class="lh-q">回答：做得怎么样？</p>
+  </div>
+</div>
+
+<div class="sec-title" id="sec-m14"><span class="st-num">⑭</span>衡量体系</div>
+<div class="card">
+  <p class="card-lead"><strong>关键纪律：</strong>1 年期优先用领先指标。只为滞后指标会让管理层"1 年内什么都看不到"。每个战略重点至少配一个可证伪的验证标志（可观测 × 有节点 × 有阈值）。</p>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>战略重点/证据项</th><th>领先指标（12 月可见）</th><th>滞后指标（24-36 月）</th><th>节点</th><th>成功阈值</th></tr></thead>
+    <tbody>
+      <tr><td><strong>A. 独立疾病认知</strong></td><td>CME ≥5 场，≥2,000 HCP；核心叙事 ≥3 会议落地；Social listening "GPP+IL-36"增长 ≥50%</td><td>≥2 部指南独立篇章；≥60% 皮肤科医生认同 GPP≠PsO</td><td>M6/M12</td><td>领先指标全达成 = 及格</td></tr>
+      <tr><td><strong>B. 全程管理定位</strong></td><td>E2 ≥5 中心启动入组；全渠道 ≥5,000 HCP；内容中枢 ≥1,000 注册</td><td>SC 处方量增长 ≥100%；"全程方案"在 ≥70% 传播中出现</td><td>M6/M12</td><td>E2 ≥5 中心启动 = 及格</td></tr>
+      <tr><td><strong>C. 证据升级</strong></td><td>E1 投稿 ≥1 篇 SCI；E4 完成数据提取分析；Battle Card 就绪</td><td>竞品上市后维持最高指南推荐；≥50% KOL 独立场合提"最完整证据链"</td><td>M9–12</td><td>E1 投稿 = 及格</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note"><b>[信息缺口]：</b>SC 处方基线、HCP 触达基线缺失→当前阈值为预估值，待 C1/C2 备齐后校准。</p>
+</div>
+
+<div class="sec-title" id="sec-m1517"><span class="st-num">⑮⑯⑰</span>贯穿要素</div>
+<div class="g3">
+  <div class="mod"><h4>⑮ 合规与医学治理</h4><p>贯穿所有活动：KOL 互动旨在科学洞察与独立教育，严禁与处方驱动挂钩；social listening 不得进行超适应症推广；"唯一/首个"须有监管/指南支撑并标注来源。</p></div>
+  <div class="mod"><h4>⑯ 跨部门协同</h4><p>注册部（指南更新/医保续约）· 市场准入/HEOR（E5 疾病负担模型）· 数字化团队（内容中枢+social listening）· MSL 团队（KOL engagement+洞察回流）· LEO Pharma 全球医学（收购后策略统一）。</p></div>
+  <div class="mod"><h4>⑰ 生命周期适配</h4><p>上市初期重心：洞察层→③竞品+②产品；核心层→⑥定位确立；执行层→⑨传播+⑧证据+⑪KOL+⑬全渠道并重；衡量层→轻（上市追踪）。下一阶段（成熟期）前瞻：⑭中重度（策略 ROI）。</p></div>
+</div>
+
+<a href="#" onclick="toggleSidebar();return false" class="back-toc">☰ 打开目录导航</a>
+</section>
+
+<!-- ============================================================ -->
+<!-- 第五层：决策收敛 -->
+<!-- ============================================================ -->
+<section class="layer-section pg" id="sec-decision">
+<div class="layer-hdr">
+  <div class="lh-bar d"></div>
+  <div class="lh-txt">
+    <div class="lh-num" style="color:var(--blue-deep)">第五层 · CONVERGENCE</div>
+    <h2>模块 ⑱ · 管理层决策问答</h2>
+    <p class="lh-q">不产生任何新信息。把全部分析收敛为 4 问递进的一页纸。每个结论可追溯来源模块。</p>
+  </div>
+</div>
+
+<div class="onepager">
+  <div class="ph">— 管理层决策问答 · 佩索利单抗 GPP · 上市初期 · 2026.06 —</div>
+
+  <div class="qrow"><div class="qn"><small>问题</small><b>Q1</b></div><div class="qc"><h4>当下最关键的问题是什么？</h4>
+    <div class="item"><strong>① 疾病认知锚定错误：</strong>医生把 GPP 当"重型银屑病"非 IL-36 独立急症，急性期用激素拖延→靶向治疗无处方机会</div>
+    <div class="item"><strong>② 先发优势窗口加速关闭：</strong>瑞西奇拜单抗 NDA 已受理（2025.10），imsidolimab PDUFA 2026.12.12，"唯一 IL-36R"面临中国国产+美国同靶点双线挑战</div>
+    <div class="item"><strong>③ SC 预防渗透率极低：</strong>全国仅 336 支 SC（2024），长期管理市场空白→竞品 SC 上市时无范式定义权</div>
+    <div class="src">← 收敛自洞察层 ①②③④ <b>[信息缺口]</b>：C1/C2 缺失，问题③的渗透率低原因待 MSL 反馈校准</div>
+  </div></div>
+
+  <div class="qrow"><div class="qn"><small>策略</small><b>Q2</b></div><div class="qc"><h4>解决这些问题的关键策略是什么？</h4>
+    <div class="item"><strong>策略 1（对应①）：建立 GPP 独立疾病认知。</strong>战场从"IL-36R 靶向药"升级为"GPP 不是重症银屑病——IL-36 是独立致病通路"的科学教育。← 模块⑥⑦⑩</div>
+    <div class="item"><strong>策略 2（对应②）：从"唯一获批"升级为"最完整证据链"。</strong>中国 RWE + 网络 Meta + 竞品 48h 快速响应，在竞品获批前建立学术壁垒。← 模块⑥⑧</div>
+    <div class="item"><strong>策略 3（对应③）：定义"GPP 全程管理"新标准。</strong>以唯一 IV+SC 双剂型 + 5 年 OLE 84% 无发作数据，拉长竞争维度从"急性治疗"→"全程管理"。← 模块⑥⑧⑬</div>
+    <div class="src">← 收敛自核心层 ⑤⑥⑦ <b>[推断]</b>：策略 2 竞品反应预判、策略 3 市场接受度假定为逻辑推演</div>
+  </div></div>
+
+  <div class="qrow"><div class="qn"><small>行动</small><b>Q3</b></div><div class="qc"><h4>当下最核心的几件事？（90 天可启动）</h4>
+    <div class="item"><strong>事项 1：召开首次 GPP Ad Board</strong>（L0 郑敏+张学军+史玉玲），审议共识框架+E2 SC 预防队列方案。责任：医学部+MSL 负责人。里程碑：2026Q3 共识框架初稿+E2 方案获批启动。← 模块⑪⑧</div>
+    <div class="item"><strong>事项 2：启动网络 Meta（E1）+ 竞品 Battle Card 制作。</strong>锁定外部合作方，预置竞品获批 48h 快速响应模板。责任：医学部+HEOR/统计。里程碑：2026Q3 方案定稿+检索启动。← 模块⑧⑨</div>
+    <div class="item"><strong>事项 3：启动内容中枢 MVP + Social Listening + CME 首期。</strong>数字化地基与教育地基并行启动，互为支撑。责任：医学部+数字化团队。里程碑：2026Q4 中枢上线+基线报告。← 模块⑩⑬</div>
+    <div class="src">← 收敛自执行层 ⑧–⑬ <b>[信息缺口]</b>：事项 1 KOL 合作意愿待 MSL 反馈；事项 3 技术方案待数字化团队确认</div>
+  </div></div>
+
+  <div class="qrow"><div class="qn"><small>验证</small><b>Q4</b></div><div class="qc"><h4>未来 1 年如何验证这些事的成果？</h4>
+    <div class="item"><strong>验证事项 1：</strong>Ad Board ≥1 次 + E2 ≥5 中心批准启动入组。节点：M6/M12。阈值：≥5 中心启动 = 及格。← 模块⑭</div>
+    <div class="item"><strong>验证事项 2：</strong>E1 投稿 ≥1 篇 SCI + Battle Card 就绪（竞品获批 48h 可部署）。节点：M9–12。阈值：投稿 = 及格，接收 = 优秀。← 模块⑭</div>
+    <div class="item"><strong>验证事项 3：</strong>内容中枢上线 + ≥1,000 HCP 注册；"GPP+IL-36"讨论量增长 ≥50%；CME ≥5 场 + ≥2,000 HCP。节点：M6/M12。阈值：中枢上线+基线报告 = 及格。← 模块⑭</div>
+    <div class="src">← 收敛自衡量层 ⑭ <b>[信息缺口]</b>：成功阈值数字为预估值，待 C 域备齐后校准</div>
+  </div></div>
+
+  <div class="ph" style="border-top:1px dashed var(--blue-line);margin-top:6px;padding-top:12px">
+    <strong>一句话总结：</strong>未来 12 个月，医学部应聚焦"在竞品上市前完成从'唯一 IL-36R 获批'到'最完整证据链+最被信赖的 GPP 全程管理标准'的定位升级"这一主线，通过 Ad Board 启动共识建立、网络 Meta 巩固证据高地、数字+教育双基建奠定触达基础三件事，使佩索利单抗在瑞西奇拜单抗和 imsidolimab 上市时，已建立难以撼动的学术壁垒与品牌认知。
+  </div>
+</div>
+
+<a href="#" onclick="toggleSidebar();return false" class="back-toc">☰ 打开目录导航</a>
+</section>
+
+<!-- ============================================================ -->
+<!-- 一致性核验 -->
+<!-- ============================================================ -->
+<section class="layer-section pg" id="sec-verify">
+<div class="layer-hdr">
+  <div class="lh-bar d"></div>
+  <div class="lh-txt">
+    <div class="lh-num" style="color:var(--blue-deep)">最后关口 · VERIFICATION</div>
+    <h2>全局一致性核验 & 缺料传导声明</h2>
+  </div>
+</div>
+
+<div class="card">
+  <h3>六域信息一致性核验</h3>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>核验域</th><th>结果</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>适应症与审批状态</td><td style="color:var(--green);font-weight:700">✅ 通过</td><td>IV（急性）· SC（预防≥12 岁）已获批；ON OLE 进行中——"已获批"与"在研"严格区分</td></tr>
+      <tr><td>竞品信息</td><td style="color:var(--green);font-weight:700">✅ 通过</td><td>Imsidolimab PDUFA 2026.12.12 · 瑞西奇拜单抗 NDA 2025.10——全文一致</td></tr>
+      <tr><td>指南与推荐级别</td><td style="color:var(--green);font-weight:700">✅ 通过</td><td>APAC 2024 IL-36 首选 92% · 中国 2024 独立专节——全文一致</td></tr>
+      <tr><td>时间线</td><td style="color:var(--green);font-weight:700">✅ 通过</td><td>2022.09/2022.12/2024.03 获批日期——全文一致</td></tr>
+      <tr><td>数据数字</td><td style="color:var(--green);font-weight:700">✅ 通过</td><td>Effisayil 1 54% · Effisayil 2 HR 0.16 · ON 84% 无发作——全文一致</td></tr>
+      <tr><td>KOL 名单</td><td style="color:var(--amber);font-weight:700">⚠ 部分通过</td><td>①→④ L0/L1 合理继承；L2 不完整（C2 缺失）<span class="badge gap">缺口</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<div class="card">
+  <h3>四链逻辑闭环检测</h3>
+  <div class="tbl-wrap"><table class="data">
+    <thead><tr><th>闭环链</th><th>结果</th></tr></thead>
+    <tbody>
+      <tr><td><strong>需求-行动闭环</strong></td><td style="color:var(--green);font-weight:700">✅ 通过</td><td>① 诊疗断裂点→⑩CME+⑬全渠道+⑥核心叙事</td></tr>
+      <tr><td><strong>差距-规划闭环</strong></td><td style="color:var(--amber);font-weight:700">⚠ 部分</td><td>② 四维差距→⑧E1-E6 已承接；E5 支付维度待 C3 补料</td></tr>
+      <tr><td><strong>威胁-应对闭环</strong></td><td style="color:var(--green);font-weight:700">✅ 通过</td><td>③ 竞品威胁→⑥定位"最完整证据链"+⑧E1/E3 Battle Card</td></tr>
+      <tr><td><strong>识别-触达闭环</strong></td><td style="color:var(--amber);font-weight:700">⚠ 部分</td><td>④L0/L1 →⑪Ad Board/共识；L2 不完整；⑪未凭空新增对象</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<div class="callout warn">
+  <h4>缺料传导终局声明</h4>
+  <p><strong>以下缺口不影响战略方向决策，但影响执行细节精度——已诚实暴露到管理层视野：</strong></p>
+  <ol style="margin:8px 0 0 18px;font-size:13px;line-height:1.7">
+    <li><strong>C1 产品一手资料缺失</strong>→ E4/E5/E6：无法核实内部未发表数据，标注"先核内部资产避免重复立项"</li>
+    <li><strong>C2 现场与专家洞察缺失</strong>→ Q1③/Q3 事项 1/Q4 阈值：SC 渗透率低的原因未知；KOL 真实合作意愿待 MSL 反馈</li>
+    <li><strong>C3 准入与政策资产缺失</strong>→ E5：药物经济学参数暂用文献估算</li>
+    <li><strong>B3 第三方市场情报缺失</strong>→ Q3 事项 3：HCP 触达基线无内部数据支撑</li>
+  </ol>
+  <p style="margin-top:8px"><strong>核验结论：</strong>战略方向（Q1→Q2→Q3）均基于 A 级公开证据，<strong>可据此决策</strong>。Q3 优先级排序和 Q4 阈值精度<strong>待 C 域物料补齐后校准</strong>。建议 Ad Board + MSL 反馈到位后更新为 V1.1。</p>
+</div>
+
+<a href="#" onclick="toggleSidebar();return false" class="back-toc">☰ 打开目录导航</a>
+</section>
+
+<!-- ============================================================ -->
+<!-- 参考文献 -->
+<!-- ============================================================ -->
+<section class="layer-section pg" id="sec-ref">
+<div class="layer-hdr">
+  <div class="lh-bar i"></div>
+  <div class="lh-txt">
+    <div class="lh-num" style="color:var(--teal)">附录 · APPENDIX</div>
+    <h2>参考文献</h2>
+  </div>
+</div>
+
+<div class="card">
+  <h3>核心文献（模块一至三共引用 34 条，此处列出关键 20 条，全部 [已核]）</h3>
+  <ol style="font-size:12.5px;padding-left:18px;line-height:1.9">
+    <li>Bachelez H, et al. Trial of Spesolimab for GPP. <em>N Engl J Med.</em> 2021;385:2431-2440. <code>[临床]</code></li>
+    <li>Morita A, et al. Subcutaneous spesolimab for GPP flare prevention (Effisayil 2). <em>Lancet.</em> 2023;402:1541-1551. <code>[临床]</code></li>
+    <li>Burden AD. Spesolimab for GPP. <em>Expert Rev Clin Immunol.</em> 2023;19(5):473-481. <code>[综述]</code></li>
+    <li>Choon SE, et al. APAC consensus on GPP management. <em>J Dermatol.</em> 2024;51:1579-1595. <code>[指南]</code></li>
+    <li>中华医学会皮肤性病学分会等. 中国银屑病生物制剂及小分子药物治疗指南（2024版）. <em>中华皮肤科杂志,</em> 2024. <code>[指南]</code></li>
+    <li>Armstrong AW, et al. NPF Consensus Statement on GPP. <em>J Am Acad Dermatol.</em> 2023;90:727-730. <code>[指南]</code></li>
+    <li>《脓疱型银屑病诊疗中国专家共识（2022版）》. <em>中华皮肤科杂志,</em> 2022. <code>[指南]</code></li>
+    <li>银屑病慢病管理专家共识. 2025. <code>[指南]</code></li>
+    <li>Fujita H, et al. Japanese guidelines for GPP. <em>J Dermatol.</em> 2018;45:1235-1270. <code>[指南]</code></li>
+    <li>Blair HA. Spesolimab: First Approval. <em>Drugs.</em> 2022;82:1681-1686. <code>[监管]</code></li>
+    <li>Morita A, et al. Spesolimab in Asian patients with GPP flare. <em>J Dermatol.</em> 2023;50:183-194. <code>[临床]</code></li>
+    <li>Tsai TF, Zheng M, et al. Spesolimab in Chinese Patients (Effisayil 1). <em>Dermatol Ther.</em> 2023;13:3097-3110. <code>[临床]</code></li>
+    <li>Morita A, et al. Real-World Safety of Spesolimab: Japan EAP. <em>J Dermatol.</em> 2026;53:351-356. <code>[临床]</code></li>
+    <li>Alzahrani D, et al. Spesolimab in GPP: systematic review and meta-analysis. <em>Front Med.</em> 2026;12:1749320. <code>[临床]</code></li>
+    <li>Gordon KB, et al. Sustained disease control: Effisayil 2 post hoc. <em>J Am Acad Dermatol.</em> 2025;92(6):1235-1242. <code>[临床]</code></li>
+    <li>Krueger JG, et al. Spesolimab suppresses subclinical inflammation: biomarker substudy. <em>J Clin Invest.</em> 2025. <code>[临床]</code></li>
+    <li>Gudjonsson JE, et al. EFFISAYIL ON long-term results. <em>AAD Annual Meeting;</em> March 2026. <code>[会议]</code></li>
+    <li>Smieszek S, et al. Imsidolimab for GPP. <em>NEJM Evid.</em> 2026. <code>[临床]</code></li>
+    <li>Zheng M, et al. Real-world Spesolimab in Chinese GPP Patients. <em>SKIN J Cutaneous Med.</em> 2025;9(2):s530. <code>[临床]</code></li>
+    <li>Choon SE, et al. IPC International Consensus on GPP. <em>JAMA Dermatol.</em> 2024;160:758-768. <code>[指南]</code></li>
+  </ol>
+  <p style="font-size:12px;color:var(--ink-faint);margin-top:8px">全部参考文献可追溯至同行评审期刊或官方注册数据库。2025-2026 年新增文献已通过直接阅读原文或权威会议报道确认。</p>
+</div>
+
+<a href="#" onclick="toggleSidebar();return false" class="back-toc">☰ 打开目录导航</a>
+</section>
+
+<footer>
+  医学策略顾问 V6.2 · 佩索利单抗（Spesolimab）· 泛发性脓疱型银屑病（GPP）· 上市初期<br>
+  全模块策略报告 · 基于 26 篇本地文献 + 网络公开信息<br>
+  报告生成日期：2026-06-25 · 仅供同行交流指正
+</footer>
+
+</div><!-- /content -->
+</div><!-- /main -->
+
+<!-- ===== BOTTOM PAGER ===== -->
+<nav class="pager" id="pager" aria-label="翻页导航">
+  <button class="pg-btn" id="pgPrev" onclick="goTo(currentPage-1)">← 上一节</button>
+  <div class="pg-mid" onclick="toggleSidebar()" title="打开目录">
+    <span id="pgTitle">封面</span>
+    <span class="pg-count"><span id="pgNow">1</span> / <span id="pgTotal">9</span></span>
+  </div>
+  <button class="pg-btn" id="pgNext" onclick="goTo(currentPage+1)">下一节 →</button>
+</nav>
+
+<script>
+/* ===== PAGINATION ENGINE ===== */
+const pages = Array.from(document.querySelectorAll('.pg'));
+const pageTitles = pages.map(p=>{
+  if(p.id==='pg-cover') return '封面';
+  const h2 = p.querySelector('.lh-txt h2');
+  return h2 ? h2.textContent.trim() : (p.id||'');
+});
+let currentPage = 0;
+
+document.body.classList.add('paged');
+document.getElementById('pgTotal').textContent = pages.length;
+
+function renderPage(i){
+  pages.forEach((p,idx)=>p.classList.toggle('active', idx===i));
+  currentPage = i;
+  // 控件状态
+  document.getElementById('pgPrev').disabled = (i===0);
+  document.getElementById('pgNext').disabled = (i===pages.length-1);
+  document.getElementById('pgTitle').textContent = pageTitles[i];
+  document.getElementById('pgNow').textContent = i+1;
+  document.getElementById('pgNext').innerHTML = (i===pages.length-1) ? '已是末页' : '下一节 →';
+  // 进度条
+  const pct = pages.length>1 ? (i/(pages.length-1))*100 : 100;
+  document.getElementById('progressBar').style.width = pct+'%';
+  // 侧栏高亮当前页
+  document.querySelectorAll('.sidebar a').forEach(a=>{
+    a.classList.remove('current');
+    a.style.background='';
+    const href=a.getAttribute('href')||'';
+    if(href==='#'+pages[i].id){a.classList.add('current');a.style.background='var(--blue-soft)';}
+  });
+}
+
+function goTo(i){
+  if(i<0||i>=pages.length) return;
+  renderPage(i);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* 根据锚点 id 找到所属页并跳转 */
+function goToAnchor(hash){
+  const el = document.getElementById(hash);
+  if(!el) return false;
+  const pageEl = el.closest('.pg');
+  if(!pageEl) return false;
+  const idx = pages.indexOf(pageEl);
+  if(idx<0) return false;
+  renderPage(idx);
+  // 若锚点是页内小节，切页后平滑定位到该小节；否则回到顶部
+  if(el===pageEl){
+    window.scrollTo({top:0, behavior:'smooth'});
+  }else{
+    requestAnimationFrame(()=>el.scrollIntoView({behavior:'smooth', block:'start'}));
+  }
+  return true;
+}
+
+/* ===== SIDEBAR / 目录跳转 ===== */
+function isMobile(){ return window.matchMedia('(max-width:860px)').matches; }
+function toggleSidebar(){
+  const sb = document.getElementById('sidebar');
+  const btn = document.querySelector('.toc-toggle');
+  const mask = document.getElementById('tocMask');
+  if(isMobile()){
+    const open = sb.classList.toggle('open');
+    if(mask) mask.classList.toggle('show', open);
+  }else{
+    // 桌面端：折叠 / 展开常驻目录
+    const collapsed = document.body.classList.toggle('toc-collapsed');
+    if(btn) btn.classList.toggle('on', !collapsed);
+  }
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  const mask = document.getElementById('tocMask');
+  if(mask) mask.classList.remove('show');
+}
+document.querySelectorAll('.sidebar a').forEach(a=>{
+  a.addEventListener('click', e=>{
+    const href = a.getAttribute('href')||'';
+    if(href.startsWith('#') && href.length>1){
+      if(goToAnchor(href.slice(1))){
+        e.preventDefault();
+        if(isMobile()) closeSidebar();
+      }
+    }
+  });
+});
+
+/* ===== 键盘左右翻页 ===== */
+document.addEventListener('keydown', e=>{
+  if(e.target.matches('input,textarea')) return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'){ goTo(currentPage+1); }
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){ goTo(currentPage-1); }
+});
+
+/* ===== 触屏滑动翻页 ===== */
+let touchX=null;
+document.addEventListener('touchstart',e=>{touchX=e.changedTouches[0].clientX;},{passive:true});
+document.addEventListener('touchend',e=>{
+  if(touchX===null) return;
+  const dx=e.changedTouches[0].clientX-touchX;
+  if(Math.abs(dx)>70){ dx<0 ? goTo(currentPage+1) : goTo(currentPage-1); }
+  touchX=null;
+},{passive:true});
+
+/* ===== PDF DOWNLOAD ===== */
+function downloadPDF(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.body.classList.remove('paged'); // 打印展开全部页
+  const restore=()=>{ document.body.classList.add('paged'); window.removeEventListener('afterprint',restore); };
+  window.addEventListener('afterprint',restore);
+  window.print();
+  setTimeout(restore,1500); // 兜底（部分浏览器不触发 afterprint）
+}
+
+/* ===== 初始化 ===== */
+renderPage(0);
+</script>
+</body>
+</html>

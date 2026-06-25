@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>医学策略顾问 · 佩索利单抗 GPP · 框架 / 体验 / 成果</title>
+<style>
+  :root{
+    --ink:#1a2433; --ink-soft:#48566b; --ink-faint:#8493a8;
+    --line:#e2e8f1; --line-soft:#eef2f7;
+    --paper:#fbfcfe; --card:#ffffff;
+    --blue:#2f5d8a; --blue-soft:#e8f0f8; --blue-line:#bcd2e8; --blue-deep:#24496c;
+    --teal:#2b7a78; --amber:#b5832b;
+    --shadow:0 1px 3px rgba(26,36,51,.06),0 6px 24px rgba(26,36,51,.05);
+    --shadow-lg:0 2px 8px rgba(26,36,51,.08),0 14px 44px rgba(26,36,51,.1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    color:var(--ink);background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+    display:flex;flex-direction:column;height:100vh;overflow:hidden;
+  }
+
+  /* ===== 顶部 Tab 切换器 ===== */
+  .switch{
+    flex:none;z-index:60;background:rgba(251,252,254,.94);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .switch .inner{max-width:1280px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:16px}
+  .switch .logo{font-weight:700;color:var(--blue);font-size:14px;margin-right:auto;white-space:nowrap;display:flex;align-items:center;gap:8px}
+  .switch .logo small{color:var(--ink-faint);font-weight:600;font-size:11px;letter-spacing:.02em}
+
+  .seg{display:inline-flex;background:var(--blue-soft);border:1px solid var(--blue-line);border-radius:11px;padding:3px;gap:2px}
+  .seg button{
+    font-family:inherit;font-size:13px;font-weight:700;padding:8px 18px;border:none;border-radius:8px;
+    background:transparent;color:var(--blue);cursor:pointer;transition:.18s;white-space:nowrap;
+    display:flex;align-items:center;gap:7px;position:relative;
+  }
+  .seg button .si{font-size:14px;line-height:1}
+  .seg button .sx{display:flex;flex-direction:column;align-items:flex-start;line-height:1.15}
+  .seg button .sx small{font-size:10px;font-weight:600;opacity:.72;letter-spacing:.02em}
+  .seg button:hover:not(.on){background:rgba(255,255,255,.6)}
+  .seg button.on{background:var(--blue);color:#fff;box-shadow:var(--shadow)}
+  .seg button.on .sx small{opacity:.85}
+  .seg button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+  /* ===== iframe 视图区 ===== */
+  .stage{flex:1;position:relative;min-height:0}
+  .stage iframe{
+    position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--paper);
+    opacity:0;visibility:hidden;transition:opacity .3s ease;
+  }
+  .stage iframe.show{opacity:1;visibility:visible}
+
+  /* 首帧加载提示 */
+  .loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--ink-faint);font-size:13px;pointer-events:none}
+  .loading.hide{display:none}
+  .spinner{width:26px;height:26px;border:3px solid var(--blue-soft);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  @media(max-width:680px){
+    .switch .inner{padding:8px 14px;gap:10px}
+    .switch .logo{font-size:12px}
+    .switch .logo small{display:none}
+    .seg button{padding:7px 11px;font-size:12px}
+    .seg button .sx small{display:none}
+    .seg button .si{font-size:15px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== 顶部 Tab ===== -->
+<header class="switch">
+  <div class="inner">
+    <span class="logo">🧭 医学策略顾问 <small>· 佩索利单抗 GPP · V6.2</small></span>
+    <nav class="seg" id="seg" aria-label="视图切换">
+      <button data-view="frame" class="on" onclick="show('frame')">
+        <span class="si">🗺️</span><span class="sx">方法论框架<small>我们怎么想</small></span>
+      </button>
+      <button data-view="demo" onclick="show('demo')">
+        <span class="si">🛠️</span><span class="sx">实操体验<small>亲手走一遍</small></span>
+      </button>
+      <button data-view="report" onclick="show('report')">
+        <span class="si">📑</span><span class="sx">成果报告<small>完整推演</small></span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== 视图区 ===== -->
+<div class="stage" id="stage">
+  <div class="loading" id="loading"><div class="spinner"></div><span>正在载入…</span></div>
+  <!-- 三个独立页面以 iframe 无缝嵌入，各自交互完全隔离 -->
+  <iframe data-view="frame"  title="方法论框架" src="框架可视化.html"></iframe>
+  <iframe data-view="demo"   title="实操体验"   data-src="实操体验.html"></iframe>
+  <iframe data-view="report" title="成果报告"   data-src="web/策略报告_佩索利单抗_GPP_V6.2完整版.html"></iframe>
+</div>
+
+<script>
+  const frames = {};
+  document.querySelectorAll('.stage iframe').forEach(f=>frames[f.dataset.view]=f);
+  const buttons = {};
+  document.querySelectorAll('.seg button').forEach(b=>buttons[b.dataset.view]=b);
+  let current = null;
+
+  function show(view){
+    if(current===view) return;
+    const f = frames[view];
+    // 懒加载：首次切到该视图时才赋 src，省内存、加快首屏
+    if(!f.src && f.dataset.src){ f.src = f.dataset.src; }
+    Object.values(frames).forEach(x=>x.classList.toggle('show', x===f));
+    Object.entries(buttons).forEach(([k,b])=>b.classList.toggle('on', k===view));
+    current = view;
+    document.getElementById('loading').classList.add('hide');
+    // 记住所在视图，刷新后保持
+    try{ location.hash = view; }catch(e){}
+  }
+
+  // 首帧：框架页 onload 后淡入
+  frames.frame.addEventListener('load', ()=>{
+    document.getElementById('loading').classList.add('hide');
+    if(!current) show('frame');
+  });
+
+  // 支持 #demo / #report 直达
+  const initial = (location.hash||'').replace('#','');
+  if(['frame','demo','report'].includes(initial)){
+    show(initial);
+  }else{
+    show('frame');
+  }
+
+  // 键盘 1/2/3 快速切换
+  document.addEventListener('keydown', e=>{
+    if(e.target!==document.body) return;
+    if(e.key==='1') show('frame');
+    else if(e.key==='2') show('demo');
+    else if(e.key==='3') show('report');
+  });
+</script>
+</body>
+</html>
