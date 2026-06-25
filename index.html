@@ -2,7 +2,8 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>医学策略顾问 · 佩索利单抗 GPP · 框架 / 体验 / 成果</title>
 <style>
   :root{
@@ -68,6 +69,15 @@
     .seg button .sx small{display:none}
     .seg button .si{font-size:15px}
   }
+
+  /* 触摸滑动指示器 */
+  .swipe-hint{display:none;position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;
+    border-radius:50%;background:var(--blue);color:#fff;font-size:18px;line-height:32px;text-align:center;
+    opacity:0;transition:opacity .25s;pointer-events:none;z-index:70}
+  .swipe-hint.show{opacity:.85}
+  .swipe-hint.left{left:8px}
+  .swipe-hint.right{right:8px}
+  @media(max-width:680px){.swipe-hint{display:block}}
 </style>
 </head>
 <body>
@@ -105,27 +115,24 @@
   const buttons = {};
   document.querySelectorAll('.seg button').forEach(b=>buttons[b.dataset.view]=b);
   let current = null;
+  const order = ['frame','demo','report'];
 
   function show(view){
     if(current===view) return;
     const f = frames[view];
-    // 懒加载：首次切到该视图时才赋 src，省内存、加快首屏
     if(!f.src && f.dataset.src){ f.src = f.dataset.src; }
     Object.values(frames).forEach(x=>x.classList.toggle('show', x===f));
     Object.entries(buttons).forEach(([k,b])=>b.classList.toggle('on', k===view));
     current = view;
     document.getElementById('loading').classList.add('hide');
-    // 记住所在视图，刷新后保持
     try{ location.hash = view; }catch(e){}
   }
 
-  // 首帧：框架页 onload 后淡入
   frames.frame.addEventListener('load', ()=>{
     document.getElementById('loading').classList.add('hide');
     if(!current) show('frame');
   });
 
-  // 支持 #demo / #report 直达
   const initial = (location.hash||'').replace('#','');
   if(['frame','demo','report'].includes(initial)){
     show(initial);
@@ -133,13 +140,78 @@
     show('frame');
   }
 
-  // 键盘 1/2/3 快速切换
   document.addEventListener('keydown', e=>{
     if(e.target!==document.body) return;
     if(e.key==='1') show('frame');
     else if(e.key==='2') show('demo');
     else if(e.key==='3') show('report');
   });
+
+  /* ===== 触摸滑动切换 Tab ===== */
+  const stage = document.getElementById('stage');
+  const hintLeft = document.createElement('div');
+  const hintRight = document.createElement('div');
+  hintLeft.className = 'swipe-hint left';
+  hintRight.className = 'swipe-hint right';
+  hintLeft.textContent = '◀';
+  hintRight.textContent = '▶';
+  stage.appendChild(hintLeft);
+  stage.appendChild(hintRight);
+
+  let touchStartX = 0, touchStartY = 0, touchMoved = false;
+  const SWIPE_THRESHOLD = 50; // 最小滑动距离
+
+  function onTouchStart(e){
+    if(e.touches.length !== 1) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchMoved = false;
+  }
+
+  function onTouchMove(e){
+    if(e.touches.length !== 1) return;
+    const dx = e.touches[0].clientX - touchStartX;
+    const dy = e.touches[0].clientY - touchStartY;
+    if(Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)){
+      // 横向滑动占主导：显示方向提示
+      touchMoved = true;
+      const idx = order.indexOf(current);
+      if(dx < -20 && idx < order.length - 1){
+        hintRight.classList.add('show');
+        hintLeft.classList.remove('show');
+      }else if(dx > 20 && idx > 0){
+        hintLeft.classList.add('show');
+        hintRight.classList.remove('show');
+      }else{
+        hintLeft.classList.remove('show');
+        hintRight.classList.remove('show');
+      }
+    }
+  }
+
+  function onTouchEnd(e){
+    hintLeft.classList.remove('show');
+    hintRight.classList.remove('show');
+    if(!touchMoved) return;
+    const dx = (e.changedTouches[0]||{}).clientX - touchStartX;
+    const dy = (e.changedTouches[0]||{}).clientY - touchStartY;
+    if(Math.abs(dx) < SWIPE_THRESHOLD) return;
+    if(Math.abs(dx) < Math.abs(dy) * 1.3) return; // 纵向主导则不切
+    const idx = order.indexOf(current);
+    if(dx < 0 && idx < order.length - 1){
+      show(order[idx + 1]);
+    }else if(dx > 0 && idx > 0){
+      show(order[idx - 1]);
+    }
+  }
+
+  // 在 header 和 stage 上监听（iframe 内部事件不透出，仅父页面区域有效）
+  document.querySelector('.switch').addEventListener('touchstart', onTouchStart, {passive:false});
+  document.querySelector('.switch').addEventListener('touchmove', onTouchMove, {passive:false});
+  document.querySelector('.switch').addEventListener('touchend', onTouchEnd);
+  stage.addEventListener('touchstart', onTouchStart, {passive:false});
+  stage.addEventListener('touchmove', onTouchMove, {passive:false});
+  stage.addEventListener('touchend', onTouchEnd);
 </script>
 </body>
 </html>
