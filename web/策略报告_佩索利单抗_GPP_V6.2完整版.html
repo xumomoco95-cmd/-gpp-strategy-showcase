@@ -47,6 +47,8 @@ body{
 @media(max-width:860px){
   .topbar .tbrand{font-size:11px}
   .topbar .tbtn{font-size:11px;padding:5px 10px}
+  .topbar .tbtn.pdf{display:none}
+  .pdf-link{display:none}
 }
 
 /* ===== MAIN LAYOUT ===== */
@@ -329,7 +331,7 @@ body.paged footer{display:none}
     <a href="#sec-ref" class="l1">参考文献</a>
   </div>
   <hr class="toc-section-divider">
-  <a href="#" onclick="downloadPDF();return false" style="color:var(--blue);font-weight:700;font-size:12px">📥 下载 PDF 版本</a>
+  <a href="#" class="pdf-link" onclick="downloadPDF();return false" style="color:var(--blue);font-weight:700;font-size:12px">📥 下载 PDF 版本</a>
 </aside>
 
 <!-- ===== CONTENT ===== -->
